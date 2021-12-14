@@ -1,5 +1,5 @@
 // Read environment variables
-require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 
 // Configure express
 const express = require("express");
