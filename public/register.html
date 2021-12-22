@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrarse</title>
+</head>
+<body>
+    <h1>Registro</h1>
+    <form action="">
+        <fieldset>
+            <label for="email">Correo electrónico</label>
+            <input type="email" name="email" id="email">
+            <br>
+            <label for="phoneNumber">Número telefónico</label>
+            <input type="tel" name="phoneNumber" id="phoneNumber">
+            <br>
+            <label for="password">Contraseña</label>
+            <input type="password" name="password" id="password">
+            <br>
+            <label for="password-verify">Verificar contraseña</label>
+            <input type="password" name="password-verify" id="password-verify">
+        </fieldset>
+        <fieldset>
+            <legend>Información Básica</legend>
+            <label for="firstName">Nombre(s)</label>
+            <input type="text" name="firstName" id="firstName">
+            <br>
+            <label for="familyName">Apellido(s)</label>
+            <input type="text" name="familyName" id="familyName">
+            <br>
+            <label for="birthdate">Fecha de nacimiento</label>
+            <input type="date" name="birthdate" id="birthdate">
+        </fieldset>
+        <fieldset>
+            <legend>Perfil</legend>
+            <label for="profileName">Apodo</label>
+            <input type="text" name="profileName" id="profileName">
+            <br>
+            <label for="biography">Biografía</label>
+            <textarea name="biography" id="biography" cols="30" rows="10"></textarea>
+        </fieldset>
+        <fieldset>
+            <legend>Identificador</legend>
+            <label for="nationality">Nacionalidad</label>
+            <input type="text" name="nationality" id="nationality">
+            <br>
+            <label for="id-type">Tipo de identificación (eg, credencial de elector, pasaporte, etc)</label>
+            <input type="text" name="id-type" id="id-type">
+            <br>
+            <label for="id-id">Id</label>
+            <input type="text" name="id-id" id="id-id">
+        </fieldset>
+        <fieldset>
+            <legend>Domicilio fiscal</legend>
+            <label for="address-country">País</label>
+            <input type="text" name="address-country" id="address-country">
+            <br>
+            <label for="address-region">Región</label>
+            <input type="text" name="address-region" id="address-region">
+            <br>
+            <label for="address-locality">Localidad</label>
+            <input type="text" name="address-locality" id="address-locality">
+            <br>
+            <label for="address-text">Dirección</label>
+            <input type="text" name="address-text" id="address-text">
+            <br>
+            <label for="address-postalCode">Código postal</label>
+            <input type="text" name="address-postalCode" id="address-postalCode">
+        </fieldset>
+        <hr>
+        <input type="submit" value="Enviar">
+    </form>
+</body>
+</html>

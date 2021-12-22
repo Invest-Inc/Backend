@@ -1,33 +1,35 @@
-// Read environment variables
-if (process.env.NODE_ENV !== 'production') require('dotenv').config()
+const PORT = process.env.PORT || 8080;
 
-// Configure express
 const express = require("express");
+const expressSession = require('express-session');
+const passport = require("passport");
+const UserModel = require("./models/user");
 const app = express();
-const PORT = process.env.PORT || 3000; 
 
-// Configure auth0
-const { auth, requiresAuth } = require('express-openid-connect');
-app.use(
-    auth({
-        authRequired: false,
-        auth0Logout: true, 
-        issuerBaseURL: process.env.ISSUER_BASE_URL, 
-        baseURL: process.env.BASE_URL, 
-        clientID: process.env.CLIENT_ID, 
-        secret: process.env.SECRET
-    })
+app.use(express.static('public'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
+app.use(expressSession({secret: 'mySecretKey'}));
+
+const AuthenticationServices = require('./services/authentication');
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.post('/auth/login', 
+    AuthenticationServices.authenticate('local', {failureRedirect: '/login.html'}),
+    (req, res) => {
+        res.json(req.user)
+    }
 )
 
-app.get('/', (req, res)=>{
-    res.send(`
-        <h1>Welcome to Invest Inc's API</h1>
-        <p>You are ${req.oidc.isAuthenticated() ? "" : "not"} logged in!</p>
-    `)
+app.get('/auth/logout', (req, res) => {
+    req.logOut();
+    res.json({message: "Logged out"})
 })
 
-app.get('/me', requiresAuth(), (req, res)=>{
-    res.json(req.oidc.user)
+app.get('/me', (req, res)=>{
+    res.send(req.isAuthenticated())
 })
 
 app.listen(PORT, ()=>{
