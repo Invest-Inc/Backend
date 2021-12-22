@@ -15,6 +15,7 @@ class UserModel extends LegalEntityModel {
     constructor(data){
         super(data);
         this.legalEntityId = this.id;
+        this.legalEntity_id = this.id;
         // Public attributes
         this.profileName = data?.profileName;
         this.profilePictureURL = data?.profilePictureURL;

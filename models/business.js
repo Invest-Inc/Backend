@@ -17,6 +17,7 @@ class BusinessModel extends LegalEntityModel {
     constructor(data){
         super(data);
         this.legalEntityId = this.id;
+        this.legalEntity_id = this.id;
         this.profileName = data?.profileName;
         this.tagline = data?.tagline;
         this.summary = data?.summary;

@@ -23,6 +23,19 @@ app.post('/auth/login',
     }
 )
 
+app.post('/auth/register', async (req, res, next) => {
+    try{
+        const user = new UserModel(req.body);
+        // Upload to db
+        await UserModel.upload(user);
+        // Sign in
+        req.logIn(user, next);
+        res.json(user);
+    } catch(e){
+        res.json({error: e});
+    }
+})
+
 app.get('/auth/logout', (req, res) => {
     req.logOut();
     res.json({message: "Logged out"})

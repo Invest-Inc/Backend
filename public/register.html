@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>Registro</h1>
-    <form action="">
+    <form action="/auth/register" method="post" enctype="application/x-www-form-urlencoded">
         <fieldset>
             <label for="email">Correo electrónico</label>
             <input type="email" name="email" id="email">
@@ -24,11 +24,11 @@
         </fieldset>
         <fieldset>
             <legend>Información Básica</legend>
-            <label for="firstName">Nombre(s)</label>
-            <input type="text" name="firstName" id="firstName">
+            <label for="personFirstName">Nombre(s)</label>
+            <input type="text" name="personFirstName" id="personFirstName">
             <br>
-            <label for="familyName">Apellido(s)</label>
-            <input type="text" name="familyName" id="familyName">
+            <label for="personFamilyName">Apellido(s)</label>
+            <input type="text" name="personFamilyName" id="personFamilyName">
             <br>
             <label for="birthdate">Fecha de nacimiento</label>
             <input type="date" name="birthdate" id="birthdate">
@@ -49,28 +49,31 @@
             <label for="id-type">Tipo de identificación (eg, credencial de elector, pasaporte, etc)</label>
             <input type="text" name="id-type" id="id-type">
             <br>
-            <label for="id-id">Id</label>
-            <input type="text" name="id-id" id="id-id">
+            <label for="id">Id</label>
+            <input type="text" name="id" id="id">
         </fieldset>
         <fieldset>
             <legend>Domicilio fiscal</legend>
-            <label for="address-country">País</label>
-            <input type="text" name="address-country" id="address-country">
+            <label for="addressCountry">País</label>
+            <input type="text" name="addressCountry" id="addressCountry">
             <br>
-            <label for="address-region">Región</label>
-            <input type="text" name="address-region" id="address-region">
+            <label for="addressRegion">Región</label>
+            <input type="text" name="addressRegion" id="addressRegion">
             <br>
-            <label for="address-locality">Localidad</label>
-            <input type="text" name="address-locality" id="address-locality">
+            <label for="addressLocality">Localidad</label>
+            <input type="text" name="addressLocality" id="addressLocality">
             <br>
-            <label for="address-text">Dirección</label>
-            <input type="text" name="address-text" id="address-text">
+            <label for="addressText">Dirección</label>
+            <input type="text" name="addressText" id="addressText">
             <br>
-            <label for="address-postalCode">Código postal</label>
-            <input type="text" name="address-postalCode" id="address-postalCode">
+            <label for="addressPostalCode">Código postal</label>
+            <input type="text" name="addressPostalCode" id="addressPostalCode">
         </fieldset>
         <hr>
-        <input type="submit" value="Enviar">
+        <div>
+            <input type="submit" value="Enviar">
+            <a href="/login.html">¿Ya tienes una cuenta? Inicia sesión aquí</a>
+        </div>
     </form>
 </body>
 </html>

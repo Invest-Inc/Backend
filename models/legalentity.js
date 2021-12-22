@@ -25,7 +25,7 @@ class LegalEntityModel {
         // TODO: Review for ISO 3166/2
         this.nationality = data?.nationality;
         // Dates
-        this.registrationDate = new Date(data?.registrationDate);
+        this.registrationDate = new Date(data?.registrationDate || new Date());
         this.birthdate = new Date(data?.birthdate);
         // Address
         this.addressCountry = data?.addressCountry;
