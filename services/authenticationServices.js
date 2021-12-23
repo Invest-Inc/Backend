@@ -20,13 +20,14 @@ passport.use(
 
 passport.serializeUser((user, callback) => {
     process.nextTick(()=>{
-        callback(null, {id: user.id, email: user.email})
+        callback(null, user.id)
     })
 })
 
 
-passport.deserializeUser((user, callback) => {
-    process.nextTick(()=>{
+passport.deserializeUser((id, callback) => {
+    process.nextTick(async ()=>{
+        const user = (await UserModel.find({id}))[0];
         callback(null, user)
     })
 })

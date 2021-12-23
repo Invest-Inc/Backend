@@ -1,6 +1,7 @@
 const Database = require("../database");
 const LegalEntityModel = require("./legalentity");
 
+
 class UserModel extends LegalEntityModel {
     /**@type {String} */ legalEntityId;
     /**@type {String} */ profileName;
@@ -11,6 +12,7 @@ class UserModel extends LegalEntityModel {
     /**@type {String} */ phoneNumber;
     /**@type {String} */ password;
     /**@type {Boolean} */ verifiedEmail;
+    /**@type {String} */ username;
 
     constructor(data){
         super(data);
@@ -21,6 +23,7 @@ class UserModel extends LegalEntityModel {
         this.profilePictureURL = data?.profilePictureURL;
         this.headerPictureURL = data?.headerPictureURL;
         this.biography = data?.biography;
+        this.username = data?.username;
         // Private attributes
         this.email = data?.email;
         this.phoneNumber = data?.phoneNumber;
@@ -40,11 +43,25 @@ UserModel.find = async params => {
 UserModel.upload = async model => {
     // First upload legalEntity
     await LegalEntityModel.upload(model)
-
-    const res = await Database.query(`
+    await Database.query(`
         INSERT INTO "User"
         SELECT * FROM json_populate_record (NULL::"User", '${JSON.stringify(model)}')
     `)
+}
+
+UserModel.isUsernameAvailable = async username => {
+    const res = await Database.query(`
+        SELECT COUNT(*) FROM "User" WHERE "username" = '${username}'
+    `)
+    return res.rows.length == 0;
+}
+
+UserModel.getIdFromUsername = async username => {
+    const res = await Database.query(`
+        SELECT "legalEntity_id" FROM "User" WHERE "username" = '${username}'
+    `);
+    if(!res) return undefined;
+    return res.rows[0].id;
 }
 
 module.exports = UserModel;
