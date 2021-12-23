@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión</title>
+</head>
+<body>
+    <h1>Log In!</h1>
+    <form action="/api/1/auth/login" method="post" enctype="application/x-www-form-urlencoded">
+        <div>
+            <label for="username">Email</label>
+            <input id="username" name="username" type="text" autocomplete="email" required />
+        </div>
+        <div>
+            <label for="current-password">Password</label>
+            <input id="current-password" name="password" type="password" autocomplete="current-password" required />
+        </div>
+        <div>
+            <button type="submit">Sign in</button>
+            <a href="/register.html">Registrate aquí</a>
+        </div>
+    </form>
+
+</body>
+</html>

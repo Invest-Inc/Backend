@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrarse</title>
+</head>
+<body>
+    <h1>Registro</h1>
+    <form action="/api/1/auth/register" method="post" enctype="application/x-www-form-urlencoded">
+        <fieldset>
+            <legend>Cuenta</legend>
+            <label for="email">Correo electrónico</label>
+            <input type="email" name="email" id="email">
+            <br>
+            <label for="password">Contraseña</label>
+            <input type="password" name="password" id="password">
+            <br>
+            <label for="password-verify">Verificar contraseña</label>
+            <input type="password" name="password-verify" id="password-verify">
+            <br>
+        </fieldset>
+        <fieldset>
+            <legend>Información Básica</legend>
+            <label for="personFirstName">Nombre(s)</label>
+            <input type="text" name="personFirstName" id="personFirstName">
+            <br>
+            <label for="personFamilyName">Apellido(s)</label>
+            <input type="text" name="personFamilyName" id="personFamilyName">
+            <br>
+            <label for="birthdate">Fecha de nacimiento</label>
+            <input type="date" name="birthdate" id="birthdate">
+        </fieldset>
+
+        <fieldset>
+            <legend>Datos de contacto</legend>
+            <label for="phoneNumber">Número telefónico</label>
+            <input type="tel" name="phoneNumber" id="phoneNumber">
+            <hr>
+            <label for="addressCountry">País</label>
+            <input type="text" name="addressCountry" id="addressCountry">
+            <br>
+            <label for="addressRegion">Región</label>
+            <input type="text" name="addressRegion" id="addressRegion">
+            <br>
+            <label for="addressLocality">Localidad</label>
+            <input type="text" name="addressLocality" id="addressLocality">
+            <br>
+            <label for="addressText">Dirección</label>
+            <input type="text" name="addressText" id="addressText">
+            <br>
+            <label for="addressPostalCode">Código postal</label>
+            <input type="text" name="addressPostalCode" id="addressPostalCode">
+        </fieldset>
+
+        <fieldset>
+            <legend>Datos oficiales</legend>
+            <p>Necesitamos contar con información oficial para poder garantizar un mejor servicio a todos nuestros clientes.</p>
+            <label for="nationality">Nacionalidad</label>
+            <input type="text" name="nationality" id="nationality">
+            <br>
+            <label for="id-type">Tipo de identificación (eg, credencial de elector, pasaporte, etc)</label>
+            <input type="text" name="id-type" id="id-type">
+            <br>
+            <label for="id">Id</label>
+            <input type="text" name="id" id="id">
+        </fieldset>
+
+        <fieldset>
+            <legend>Perfil</legend>
+            <label for="username">Nombre de usuario</label>
+            <input type="text" name="username" id="username">
+            <br>
+            <label for="profileName">Apodo</label>
+            <input type="text" name="profileName" id="profileName">
+            <br>
+            <label for="biography">Biografía</label>
+            <textarea name="biography" id="biography" cols="30" rows="10"></textarea>
+        </fieldset>
+
+        
+        <div>
+            <input type="submit" value="Enviar">
+            <a href="/login.html">¿Ya tienes una cuenta? Inicia sesión aquí</a>
+        </div>
+    </form>
+</body>
+</html>

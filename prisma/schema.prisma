@@ -1,0 +1,148 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Business {
+  legalEntity_id           String                     @id @db.VarChar
+  profileName              String?                    @db.VarChar
+  tagline                  String?                    @db.VarChar
+  summary                  String?
+  longSummary              String?
+  categories               String?
+  profilePictureURL        String?                    @db.VarChar
+  headerPictureURL         String?                    @db.VarChar
+  headerVideoURL           String?                    @db.VarChar
+  email                    String?                    @db.VarChar
+  phoneNumber              String?                    @db.VarChar
+  LegalEntity              LegalEntity                @relation(fields: [legalEntity_id], references: [id], onDelete: Cascade)
+  BusinessAdmin            BusinessAdmin[]            @ignore
+  BusinessInvestmentRounds BusinessInvestmentRounds[]
+  BusinessNews             BusinessNews[]
+  BusinessRole             BusinessRole[]             @ignore
+  Investment               Investment[]               @ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model BusinessAdmin {
+  business_id String                       @db.VarChar
+  user_id     String                       @db.VarChar
+  permissions inv_businessadmin_permission
+  Business    Business                     @relation(fields: [business_id], references: [legalEntity_id], onDelete: Cascade)
+  User        User                         @relation(fields: [user_id], references: [legalEntity_id], onDelete: Cascade)
+
+  @@ignore
+}
+
+model BusinessInvestmentRounds {
+  id             String    @id @db.VarChar
+  business_id    String    @db.VarChar
+  description    String?
+  goal           Decimal?  @db.Decimal
+  creationDate   DateTime? @default(now()) @db.Timestamp(6)
+  completionDate DateTime? @default(now()) @db.Timestamp(6)
+  achieved       Boolean?  @default(false)
+  type           String?   @db.VarChar
+  Business       Business  @relation(fields: [business_id], references: [legalEntity_id], onDelete: Cascade)
+}
+
+model BusinessNews {
+  id               String    @id @db.VarChar
+  business_id      String    @db.VarChar
+  date             DateTime? @default(now()) @db.Timestamp(6)
+  title            String    @db.VarChar
+  content          String
+  headerPictureURL String?   @db.VarChar
+  readingTime      Decimal   @db.Decimal
+  visitCount       Decimal?  @default(0) @db.Decimal
+  Business         Business  @relation(fields: [business_id], references: [legalEntity_id], onDelete: Cascade)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model BusinessRole {
+  business_id String   @db.VarChar
+  user_id     String   @db.VarChar
+  role        String   @db.VarChar
+  description String
+  Business    Business @relation(fields: [business_id], references: [legalEntity_id], onDelete: Cascade)
+  User        User     @relation(fields: [user_id], references: [legalEntity_id], onDelete: Cascade)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model Investment {
+  id          String   @db.VarChar
+  investor_id String   @db.VarChar
+  business_id String   @db.VarChar
+  date        DateTime @default(now()) @db.Timestamp(6)
+  value       Decimal  @default(0) @db.Decimal
+  Business    Business @relation(fields: [business_id], references: [legalEntity_id], onDelete: Cascade)
+  User        User     @relation(fields: [investor_id], references: [legalEntity_id], onDelete: Cascade)
+
+  @@ignore
+}
+
+model LegalEntity {
+  id                String                @id @db.VarChar
+  type              inv_legalentity_type?
+  nationality       String?               @db.VarChar(3)
+  registrationDate  DateTime?             @default(now()) @db.Timestamp(6)
+  addressCountry    String?               @db.VarChar(3)
+  addressRegion     String?               @db.VarChar
+  addressLocality   String?               @db.VarChar
+  addressPostalCode String?               @db.VarChar
+  addressText       String?               @db.VarChar
+  birthdate         DateTime?             @default(now()) @db.Timestamp(6)
+  personFirstName   String?               @default("") @db.VarChar
+  personFamilyName  String?               @db.VarChar
+  businessName      String?               @db.VarChar
+  businessType      String?               @db.VarChar
+  completeData      Boolean?              @default(true)
+  Business          Business?
+  User              User?
+}
+
+model User {
+  legalEntity_id    String              @id @db.VarChar
+  profileName       String?             @db.VarChar
+  profilePictureURL String?             @db.VarChar
+  headerPictureURL  String?             @db.VarChar
+  biography         String?
+  email             String?             @unique(map: "User_email") @db.VarChar
+  phoneNumber       String?             @db.VarChar
+  password          String              @db.VarChar
+  verified_email    Boolean?            @default(false)
+  username          String?             @unique(map: "User_username") @db.VarChar
+  LegalEntity       LegalEntity         @relation(fields: [legalEntity_id], references: [id], onDelete: Cascade)
+  BusinessAdmin     BusinessAdmin[]     @ignore
+  BusinessRole      BusinessRole[]      @ignore
+  Investment        Investment[]        @ignore
+  UserSocialProfile UserSocialProfile[]
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model UserSocialProfile {
+  user_id  String? @db.VarChar
+  provider String? @db.VarChar
+  username String? @db.VarChar
+  url      String? @db.VarChar
+  id       Int     @id @default(autoincrement())
+  User     User?   @relation(fields: [user_id], references: [legalEntity_id], onDelete: Cascade)
+
+  @@ignore
+}
+
+enum inv_businessadmin_permission {
+  Owner
+  Editor
+}
+
+enum inv_legalentity_type {
+  Person
+  Business
+}
