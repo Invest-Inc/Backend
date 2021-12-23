@@ -16,7 +16,10 @@ app.use(passport.session());
 
 
 app.get('/', (req, res)=>{
-    res.send("Hello!")
+    res.send(`
+        <h1>Invest Inc. API</h1>
+        <i>Under development, v.0.0.2</i>
+    `)
 })
 
 app.use('/api/1/auth', require('./routes/auth'))
