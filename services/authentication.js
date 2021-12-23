@@ -32,4 +32,6 @@ passport.deserializeUser((id, next) => {
     })
 })
 
-module.exports = passport;
+const Authentication = passport
+
+module.exports = Authentication;

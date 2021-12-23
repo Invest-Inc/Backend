@@ -122,7 +122,7 @@ model User {
   BusinessAdmin     BusinessAdmin[]     @ignore
   BusinessRole      BusinessRole[]      @ignore
   Investment        Investment[]        @ignore
-  UserSocialProfile UserSocialProfile[] @ignore
+  UserSocialProfile UserSocialProfile[]
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
@@ -131,6 +131,7 @@ model UserSocialProfile {
   provider String? @db.VarChar
   username String? @db.VarChar
   url      String? @db.VarChar
+  id       Int     @id @default(autoincrement())
   User     User?   @relation(fields: [user_id], references: [legalEntity_id], onDelete: Cascade)
 
   @@ignore
