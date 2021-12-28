@@ -23,7 +23,8 @@ app.get('/', (req, res)=>{
 })
 
 app.use('/api/1/auth', require('./routes/auth'))
-
+app.use('/api/1/currency', require('./routes/currency'))
+app.use('/api/1/users', require('./routes/user'))
 
 app.listen(PORT, ()=>{
     console.log(`App listening at port ${PORT}`)

@@ -24,7 +24,7 @@ model Business {
   BusinessInvestmentRounds BusinessInvestmentRounds[]
   BusinessNews             BusinessNews[]
   BusinessRole             BusinessRole[]             @ignore
-  Investment               Investment[]               @ignore
+  Investment               Investment[]
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
@@ -74,17 +74,16 @@ model BusinessRole {
   @@ignore
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model Investment {
-  id          String   @db.VarChar
+  id          String   @id @db.VarChar
   investor_id String   @db.VarChar
   business_id String   @db.VarChar
   date        DateTime @default(now()) @db.Timestamp(6)
   value       Decimal  @default(0) @db.Decimal
+  valueUSD    Decimal  @default(0) @db.Decimal
+  currency    String   @default("COP") @db.VarChar
   Business    Business @relation(fields: [business_id], references: [legalEntity_id], onDelete: Cascade)
   User        User     @relation(fields: [investor_id], references: [legalEntity_id], onDelete: Cascade)
-
-  @@ignore
 }
 
 model LegalEntity {
@@ -121,7 +120,7 @@ model User {
   LegalEntity       LegalEntity         @relation(fields: [legalEntity_id], references: [id], onDelete: Cascade)
   BusinessAdmin     BusinessAdmin[]     @ignore
   BusinessRole      BusinessRole[]      @ignore
-  Investment        Investment[]        @ignore
+  Investment        Investment[]
   UserSocialProfile UserSocialProfile[] @ignore
 }
 
@@ -131,7 +130,6 @@ model UserSocialProfile {
   provider String? @db.VarChar
   username String? @db.VarChar
   url      String? @db.VarChar
-  id       Int     @id @default(autoincrement())
   User     User?   @relation(fields: [user_id], references: [legalEntity_id], onDelete: Cascade)
 
   @@ignore
