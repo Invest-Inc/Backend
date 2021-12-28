@@ -20,22 +20,20 @@ model Business {
   email                    String?                    @db.VarChar
   phoneNumber              String?                    @db.VarChar
   LegalEntity              LegalEntity                @relation(fields: [legalEntity_id], references: [id], onDelete: Cascade)
-  BusinessAdmin            BusinessAdmin[]            @ignore
+  BusinessAdmin            BusinessAdmin[]
   BusinessInvestmentRounds BusinessInvestmentRounds[]
   BusinessNews             BusinessNews[]
   BusinessRole             BusinessRole[]             @ignore
   Investment               Investment[]
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model BusinessAdmin {
   business_id String                       @db.VarChar
   user_id     String                       @db.VarChar
   permissions inv_businessadmin_permission
+  id          Int                          @id @default(autoincrement())
   Business    Business                     @relation(fields: [business_id], references: [legalEntity_id], onDelete: Cascade)
   User        User                         @relation(fields: [user_id], references: [legalEntity_id], onDelete: Cascade)
-
-  @@ignore
 }
 
 model BusinessInvestmentRounds {
@@ -118,21 +116,19 @@ model User {
   verified_email    Boolean?            @default(false)
   username          String?             @unique(map: "User_username") @db.VarChar
   LegalEntity       LegalEntity         @relation(fields: [legalEntity_id], references: [id], onDelete: Cascade)
-  BusinessAdmin     BusinessAdmin[]     @ignore
+  BusinessAdmin     BusinessAdmin[]
   BusinessRole      BusinessRole[]      @ignore
   Investment        Investment[]
-  UserSocialProfile UserSocialProfile[] @ignore
+  UserSocialProfile UserSocialProfile[]
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model UserSocialProfile {
   user_id  String? @db.VarChar
   provider String? @db.VarChar
   username String? @db.VarChar
   url      String? @db.VarChar
+  id       Int     @id @default(autoincrement())
   User     User?   @relation(fields: [user_id], references: [legalEntity_id], onDelete: Cascade)
-
-  @@ignore
 }
 
 enum inv_businessadmin_permission {

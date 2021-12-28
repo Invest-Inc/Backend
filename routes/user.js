@@ -20,12 +20,45 @@ router.get('/:username', async (req, res) => {
     res.json(user);
 });
 
+// Profiles
 router.get('/:username/profiles', async (req, res) => {
     const username = req.params.username;
+    const user = await UserService.findUnique({ where: {username} })
     // Find profiles
-    
+    if(!user) return res.json({error: "User does not exist"}).status(404);
+    // Return profiles
+    try{
+        res.json(await UserService.getProfiles(user.legalEntity_id))
+    } catch(e){
+        res.json(e);
+    }
 });
 
+router.post('/:username/profiles', async (req, res) => {
+    if(!req.isAuthenticated() || req.user.username != req.params.username)
+        return res.json({error: "Unauthorized"});
+    const {provider, username, url} = req.body;
+    try{
+        await UserService.createProfile({user_id: req.user.legalEntity_id, provider, username, url})
+        res.json({message: "Success"})
+    } catch(e){
+        res.json(e)
+    }
+})
+
+router.delete('/:username/profiles', async (req, res) => {
+    if(!req.isAuthenticated() || req.user.username != req.params.username)
+        return res.json({error: "Unauthorized"});
+    const {id} = req.body;
+    try{
+        await UserService.deleteProfile({user_id: req.user.legalEntity_id, id})
+        res.json({message: "Success"})
+    } catch(e){
+        res.json(e)
+    }
+})
+
+// Investments
 router.get('/:username/investments', async (req, res) => {
     const username = req.params.username;
     const user = await UserService.findUnique({

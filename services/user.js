@@ -65,4 +65,37 @@ UserService.hidePrivateFields = data => {
     return data;
 }
 
+UserService.getProfiles = async user_id => {
+    return Database.userSocialProfile.findMany({
+        where: {user_id}, 
+        select: {
+            id: true,
+            provider: true, 
+            username: true, 
+            url: true
+        }
+    })
+}
+
+UserService.createProfile = async ({user_id, provider, username, url}) => {
+    return Database.userSocialProfile.create({
+        data: { user_id, provider, username, url }
+    })
+}
+
+UserService.deleteProfile = async ({user_id, id}) => {
+    const row = await Database.userSocialProfile.findFirst({
+        where: {
+            user_id, 
+            AND: {
+                id
+            }
+        }
+    })
+    if(row == undefined) return;
+    return Database.userSocialProfile.delete({
+        where: {id: row.id}
+    })
+}
+
 module.exports = UserService;
