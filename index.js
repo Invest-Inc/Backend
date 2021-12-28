@@ -3,7 +3,11 @@ const PORT = process.env.PORT || 8080;
 // Imports
 const express = require("express");
 const expressSession = require("express-session");
-const passport = require('./services/authentication')
+const passport = require("passport");
+const AuthenticationService = require("./services/authentication");
+
+// const passport = require('./services/authentication')
+
 // Configure app
 const app = express();
 app.use(express.static('public'));

@@ -1,6 +1,4 @@
 const express = require("express");
-const Authentication = require("../services/authentication");
-const Database = require("../services/database");
 const InvestmentService = require("../services/investment");
 const UserService = require("../services/user");
 

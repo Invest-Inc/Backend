@@ -14,33 +14,30 @@ BusinessService.create = async data => {
         data: {
             LegalEntity: {
                 create: {
-                    id: data.id,
+                    id: data.id, 
                     addressCountry: data.addressCountry, 
+                    addressRegion: data.addressRegion, 
                     addressLocality: data.addressLocality, 
-                    addressPostalCode: data.addressPostalCode, 
-                    addressRegion: data.addressRegion,
                     addressText: data.addressText, 
-                    birthdate: data.birthdate, 
+                    addressPostalCode: data.addressPostalCode, 
+                    birthdate: new Date(data.birthdate), 
                     businessName: data.businessName, 
                     businessType: data.businessType, 
                     nationality: data.nationality, 
                     registrationDate: new Date(), 
                     type: "Business"
                 }
-            }, 
+            },
             BusinessAdmin: {
                 create: {
-                    user_id: data.userID, 
+                    user_id: data.userID,
                     permissions: "Owner"
                 }
-            }, 
+            },
+            profileName: data.profileName, 
             tagline: data.tagline, 
             summary: data.summary, 
-            profileName: data.profileName, 
-            longSummary: data.longSummary, 
-            profilePictureURL: data.profilePictureURL, 
-            headerPictureURL: data.headerPictureURL,
-            headerVideoURL: data.headerVideoURL, 
+            longSummary: data.longSummary,
             categories: data.categories
         }
     })
@@ -63,3 +60,18 @@ BusinessService.deleteBusinessAdmin = async (id) => {
         where: { id }
     })
 }
+
+BusinessService.getUserPermissions = async ({user_id, business_id}) => {
+    const row = await Database.businessAdmin.findFirst({
+        where: {
+            business_id, 
+            AND: {
+                user_id
+            }
+        }
+    })
+    if(row == undefined) return {permissions: "none"}
+    return {permissions: row.permissions}
+} 
+
+module.exports = BusinessService;
