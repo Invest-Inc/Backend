@@ -73,13 +73,13 @@ model BusinessRole {
 }
 
 model Investment {
-  id          String   @id @db.VarChar
   investor_id String   @db.VarChar
   business_id String   @db.VarChar
   date        DateTime @default(now()) @db.Timestamp(6)
-  value       Decimal  @default(0) @db.Decimal
-  valueUSD    Decimal  @default(0) @db.Decimal
+  value       Float    @default(0)
+  valueUSD    Float    @default(0)
   currency    String   @default("COP") @db.VarChar
+  id          Int      @id @default(autoincrement())
   Business    Business @relation(fields: [business_id], references: [legalEntity_id], onDelete: Cascade)
   User        User     @relation(fields: [investor_id], references: [legalEntity_id], onDelete: Cascade)
 }

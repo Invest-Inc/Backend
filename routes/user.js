@@ -82,13 +82,8 @@ router.get('/:username/investments', async (req, res) => {
     // Find investments from user
     const investments = await InvestmentService.findMany({
         where: {investor_id: user.legalEntity_id},
-        select: {
-            id: true,
-            business_id: true,
-            currency: true, 
-            date: true,
-            value: true,
-            valueUSD: true
+        include: {
+            Business: true
         }
     })
     // Return 
