@@ -2,6 +2,7 @@ const PORT = process.env.PORT || 8080;
 
 // Imports
 const express = require("express");
+const cors = require('cors')
 const expressSession = require("express-session");
 const passport = require("passport");
 const AuthenticationService = require("./services/authentication");
@@ -10,6 +11,7 @@ const AuthenticationService = require("./services/authentication");
 
 // Configure app
 const app = express();
+app.use(cors())
 app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
@@ -29,6 +31,7 @@ app.get('/', (req, res)=>{
 app.use('/api/1/auth', require('./routes/auth'))
 app.use('/api/1/currency', require('./routes/currency'))
 app.use('/api/1/users', require('./routes/user'))
+app.use('/api/1/businesses', require('./routes/business'))
 
 app.listen(PORT, ()=>{
     console.log(`App listening at port ${PORT}`)

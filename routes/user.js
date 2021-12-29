@@ -1,4 +1,5 @@
 const express = require("express");
+const AuthenticationService = require("../services/authentication");
 const InvestmentService = require("../services/investment");
 const UserService = require("../services/user");
 
@@ -18,6 +19,20 @@ router.get('/:username', async (req, res) => {
     res.json(user);
 });
 
+router.put('/:username', AuthenticationService.authenticate(), async (req, res) => {
+    try{
+        const username = req.params.username;
+        const user = await UserService.update({
+            data: req.body, 
+            where: { username }
+        })
+        res.json({message: "Success"})
+    } catch(e){
+        res.json(e)
+    }
+})
+
+
 // Profiles
 router.get('/:username/profiles', async (req, res) => {
     const username = req.params.username;
@@ -32,7 +47,7 @@ router.get('/:username/profiles', async (req, res) => {
     }
 });
 
-router.post('/:username/profiles', async (req, res) => {
+router.post('/:username/profiles', AuthenticationService.authenticate(), async (req, res) => {
     if(!req.isAuthenticated() || req.user.username != req.params.username)
         return res.json({error: "Unauthorized"});
     const {provider, username, url} = req.body;
