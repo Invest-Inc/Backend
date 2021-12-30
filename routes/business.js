@@ -1,6 +1,7 @@
 const express = require("express");
 const BusinessService = require("../services/business");
 const BusinessNewsService = require("../services/businessNews");
+const { businessRole } = require("../services/database");
 const router = express.Router();
 
 
@@ -66,5 +67,16 @@ router.get('/:legalEntity_id/news', async (req, res) => {
     }
 })
 
+router.get('/:legalEntity_id/roles', async (req, res) => {
+    try{
+        const roles = await businessRole.findMany({
+            where: {business_id: req.params.legalEntity_id},
+            include: {User: true}
+        });
+        res.json(roles);
+    } catch(e){
+        res.json(e);
+    }
+})
 
 module.exports = router; 
