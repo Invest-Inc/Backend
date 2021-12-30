@@ -32,6 +32,8 @@ app.use('/api/1/auth', require('./routes/auth'))
 app.use('/api/1/currency', require('./routes/currency'))
 app.use('/api/1/users', require('./routes/user'))
 app.use('/api/1/businesses', require('./routes/business'))
+app.use('/api/1/news', require('./routes/news'))
+
 
 app.listen(PORT, ()=>{
     console.log(`App listening at port ${PORT}`)

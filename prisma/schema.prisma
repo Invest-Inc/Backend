@@ -49,15 +49,15 @@ model BusinessInvestmentRounds {
 }
 
 model BusinessNews {
-  id               String    @id @db.VarChar
-  business_id      String    @db.VarChar
-  date             DateTime? @default(now()) @db.Timestamp(6)
-  title            String    @db.VarChar
-  content          String
-  headerPictureURL String?   @db.VarChar
-  readingTime      Decimal   @db.Decimal
-  visitCount       Decimal?  @default(0) @db.Decimal
-  Business         Business  @relation(fields: [business_id], references: [legalEntity_id], onDelete: Cascade)
+  id          Int       @id @default(autoincrement())
+  business_id String    @db.VarChar
+  date        DateTime? @default(now()) @db.Timestamp(6)
+  title       String    @db.VarChar
+  content     String
+  pictureURL  String?   @db.VarChar
+  readingTime Decimal   @db.Decimal
+  visitCount  Decimal?  @db.Decimal
+  Business    Business  @relation(fields: [business_id], references: [legalEntity_id], onDelete: Cascade)
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
