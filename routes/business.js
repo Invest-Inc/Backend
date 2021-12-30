@@ -1,5 +1,6 @@
 const express = require("express");
 const BusinessService = require("../services/business");
+const BusinessNewsService = require("../services/businessNews");
 const router = express.Router();
 
 
@@ -52,5 +53,17 @@ router.get('/:legalEntity_id/admins', async (req, res) => {
     }
     
 })
+
+router.get('/:legalEntity_id/news', async (req, res) => {
+    try{
+        const news = await BusinessNewsService.findMany({
+            where: {business_id: req.params.legalEntity_id}
+        });
+        res.json(news);
+    } catch(e){
+        res.json(e);
+    }
+})
+
 
 module.exports = router; 
