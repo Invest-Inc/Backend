@@ -57,7 +57,8 @@ router.get('/:legalEntity_id/admins', async (req, res) => {
 router.get('/:legalEntity_id/news', async (req, res) => {
     try{
         const news = await BusinessNewsService.findMany({
-            where: {business_id: req.params.legalEntity_id}
+            where: {business_id: req.params.legalEntity_id}, 
+            include: {Business: true}
         });
         res.json(news);
     } catch(e){
