@@ -1,84 +1,74 @@
 const express = require("express");
-// const Authentication = require("../services/authentication");
-const UserService = require("../services/user");
 const passport = require("passport");
+const UserService = require("../services/UserService");
 
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const AuthenticationService = require("../services/authentication");
+const AuthenticationService = require("../services/AuthenticationService");
+const res = require("express/lib/response");
+const JWT_SECRET = AuthenticationService.JWT_SECRET;
 
-const JWT_SECRET = "1nv3stInC"
-
-/* router.post('/login', 
-    Authentication.authenticate('local', {failureRedirect: '/login.html'}),
-    (req, res) => {
-        console.log(req.body)
-        res.json(req.user);
-    }
-) */
-
-router.post('/login',
-    async (req, res, next) => {
+router.post('/login', 
+    async (req, req, next) => {
         passport.authenticate('local', async (err, user, info) => {
-            try {
-                if (err || !user) return next(new Error("An error occurred."));
+            try{
+                if(err || !user) return next(new Error("An error occurred"));
                 req.login(user, {session: false}, async (error) => {
                     if (error) return next(error);
                     return res.json(
                         jwt.sign({user: {
-                            legalEntity_id: user.legalEntity_id, 
-                            id: user.legalEntity_id
+                            user_id: user.user_id
                         }}, JWT_SECRET)
                     )
-                })
-            } catch (error) {
-                return next(error);
+                });
+            } catch(e){
+                return next(e);
             }
-        }
-        )(req, res, next);
+        })(req, res, next);
     }
 );
 
 router.post('/register',
     async (req, res, next) => {
-        try {
-            const user = await UserService.create(req.body)
+        try{
+            const user = await UserService.create(req.body);
             req.logIn(user, next);
-        } catch (e) {
-            console.log(e)
-            res.json({ error: e })
+        } catch(e) {
+            console.log(e);
+            res.json({error: e});
         }
     },
     (req, res) => {
-        res.json({ message: "Created new user" })
+        res.json({ message: "Created new user" });
     }
-)
+);
 
-router.get('/available/:username',
+router.get('/available/:username', 
     async (req, res, next) => {
-        try {
+        try{
             res.json({ available: await UserService.checkUsernameAvailability(req.params.username) });
-        } catch (e) {
+        } catch(e){
             res.json({ available: false });
         }
     }
-)
+);
 
 router.get('/logout',
     (req, res) => {
         req.logout();
-        res.json({ message: "Logged out" });
+        res.json({ message: "Logged out." });
     }
-)
+);
 
-router.get('/current', AuthenticationService.authenticate(),
+router.get('/current',
+    AuthenticationService.authenticate(),
     async (req, res) => {
-        if (req.isAuthenticated()) {
-            res.json(req.user)
+        if(req.isAuthenticated()) {
+            res.json(req.user);
         } else {
-            res.json({ error: "Unauthorized" }).status(400);
+            res.json({error: "Unauthorized"}).status(400);
         }
     }
-)
+);
 
 module.exports = router;
