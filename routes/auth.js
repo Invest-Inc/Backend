@@ -9,7 +9,7 @@ const res = require("express/lib/response");
 const JWT_SECRET = AuthenticationService.JWT_SECRET;
 
 router.post('/login', 
-    async (req, req, next) => {
+    async (req, res, next) => {
         passport.authenticate('local', async (err, user, info) => {
             try{
                 if(err || !user) return next(new Error("An error occurred"));

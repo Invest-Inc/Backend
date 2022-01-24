@@ -4,7 +4,8 @@
   "description": "Invest Inc Backend System ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1", 
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -18,8 +19,10 @@
   "homepage": "https://github.com/Invest-Inc/Backend#readme",
   "dependencies": {
     "@prisma/client": "^3.8.1",
+    "cors": "^2.8.5",
     "cross-fetch": "^3.1.5",
     "express": "^4.17.2",
+    "express-session": "^1.17.2",
     "jsonwebtoken": "^8.5.1",
     "passport": "^0.5.2",
     "passport-jwt": "^4.0.0",
