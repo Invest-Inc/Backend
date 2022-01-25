@@ -8,27 +8,28 @@ datasource db {
 }
 
 model Startup {
-  startup_id                        Int                 @id @default(autoincrement())
-  profile_picture_url               String?             @db.VarChar
-  header_picture_url                String?             @db.VarChar
-  pitch_video_url                   String?             @db.VarChar
-  name                              String?             @db.VarChar
+  startup_id                        Int                       @id @default(autoincrement())
+  profile_picture_url               String?                   @db.VarChar
+  header_picture_url                String?                   @db.VarChar
+  pitch_video_url                   String?                   @db.VarChar
+  name                              String?                   @db.VarChar
   summary                           String?
-  industry                          String?             @db.VarChar
-  constitution_date                 DateTime?           @db.Timestamp(6)
-  constitution_country              String?             @db.VarChar
-  official_identification_type      String?             @db.VarChar
-  official_identification_src       String?             @db.VarChar
-  headquarters_country              String?             @db.VarChar
+  industry                          String?                   @db.VarChar
+  constitution_date                 DateTime?                 @db.Timestamp(6)
+  constitution_country              String?                   @db.VarChar
+  official_identification_type      String?                   @db.VarChar
+  official_identification_src       String?                   @db.VarChar
+  headquarters_country              String?                   @db.VarChar
   inernational_operations_countries String?
-  economic_sector                   String?             @db.VarChar
-  business_model                    String?             @db.VarChar
-  monetization_plans_count          Int?                @default(1)
-  profile_creation_date             DateTime            @default(now()) @db.Timestamp(6)
+  economic_sector                   String?                   @db.VarChar
+  business_model                    String?                   @db.VarChar
+  monetization_plans_count          Int?                      @default(1)
+  profile_creation_date             DateTime                  @default(now()) @db.Timestamp(6)
   Startup_Admin                     Startup_Admin[]
   Startup_Employee                  Startup_Employee[]
   Update_News                       Update_News[]
   Update_Operations                 Update_Operations[]
+  User_Startup_Followings           User_Startup_Followings[]
 }
 
 model Startup_Admin {
@@ -75,36 +76,42 @@ model Update_Operations {
 }
 
 model User {
-  user_id                      Int                        @id @default(autoincrement())
-  profile_picture_url          String?                    @db.VarChar
-  header_picture_url           String?                    @db.VarChar
-  curriculum_vitae_url         String?                    @db.VarChar
-  official_identification_type String?                    @db.VarChar
-  official_identification_src  String?                    @db.VarChar
-  name                         String                     @db.VarChar
-  legal_full_name              String                     @db.VarChar
-  email                        String?                    @db.VarChar
-  telephone                    String?                    @db.VarChar
-  nationality                  String?                    @db.VarChar
-  birthday                     DateTime?                  @db.Timestamp(6)
-  password_hash                String?                    @db.VarChar
-  username                     String                     @db.VarChar
-  Startup_Admin                Startup_Admin[]
-  Startup_Employee             Startup_Employee[]
-  User_Curricular_Activity     User_Curricular_Activity[]
-  User_Social_Newtorks         User_Social_Newtorks[]
+  user_id                                                           Int                        @id @default(autoincrement())
+  profile_picture_url                                               String?                    @db.VarChar
+  header_picture_url                                                String?                    @db.VarChar
+  curriculum_vitae_url                                              String?                    @db.VarChar
+  official_identification_type                                      String?                    @db.VarChar
+  official_identification_src                                       String?                    @db.VarChar
+  name                                                              String                     @db.VarChar
+  legal_full_name                                                   String                     @db.VarChar
+  email                                                             String?                    @db.VarChar
+  telephone                                                         String?                    @db.VarChar
+  nationality                                                       String?                    @db.VarChar
+  birthday                                                          DateTime?                  @db.Timestamp(6)
+  password_hash                                                     String?                    @db.VarChar
+  username                                                          String                     @unique(map: "User_username") @db.VarChar
+  summary                                                           String?                    @db.VarChar
+  Startup_Admin                                                     Startup_Admin[]
+  Startup_Employee                                                  Startup_Employee[]
+  User_Curricular_Activity                                          User_Curricular_Activity[]
+  User_Social_Newtorks                                              User_Social_Newtorks[]
+  User_Startup_Followings                                           User_Startup_Followings[]
+  User_User_Followings_UserToUser_User_Followings_following_user_id User_User_Followings[]     @relation("UserToUser_User_Followings_following_user_id")
+  User_User_Followings_UserToUser_User_Followings_user_id           User_User_Followings[]     @relation("UserToUser_User_Followings_user_id")
 }
 
 model User_Curricular_Activity {
   user_id                     Int?
-  startDate                   DateTime? @db.Timestamp(6)
-  endDate                     DateTime? @db.Timestamp(6)
+  start_date                  DateTime? @db.Timestamp(6)
+  end_date                    DateTime? @db.Timestamp(6)
   type                        String?   @db.VarChar
   organization                String?   @db.VarChar
   name                        String?   @db.VarChar
   description                 String?   @db.VarChar
   user_curricular_activity_id Int       @id @default(autoincrement())
   User                        User?     @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+
+  @@index([user_id], map: "User_Curricular_Activity_user")
 }
 
 model User_Social_Newtorks {
@@ -114,6 +121,22 @@ model User_Social_Newtorks {
   url                     String? @db.VarChar
   user_social_networks_id Int     @id @default(autoincrement())
   User                    User?   @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+}
+
+model User_Startup_Followings {
+  user_startup_followings_id Int      @id @default(autoincrement())
+  user_id                    Int?
+  following_startup_id       Int?
+  Startup                    Startup? @relation(fields: [following_startup_id], references: [startup_id], onDelete: Cascade)
+  User                       User?    @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+}
+
+model User_User_Followings {
+  user_user_following_id                            Int   @id @default(autoincrement())
+  user_id                                           Int?
+  following_user_id                                 Int?
+  User_UserToUser_User_Followings_following_user_id User? @relation("UserToUser_User_Followings_following_user_id", fields: [following_user_id], references: [user_id], onDelete: Cascade)
+  User_UserToUser_User_Followings_user_id           User? @relation("UserToUser_User_Followings_user_id", fields: [user_id], references: [user_id], onDelete: Cascade)
 }
 
 enum inv_businessadmin_permission {

@@ -146,10 +146,11 @@ const AuthenticationService = {};
 
 AuthenticationService.JWT_SECRET = JWT_SECRET;
 
-AuthenticationService.authenticate = (optional) => (
+AuthenticationService.authenticate = (required = false) => (
     async (req, res, next) => {
         passport.authenticate('jwt', (err, user, info) => {
             req.user = user;
+            if(required && user == undefined) res.json({error: "Unauthorized"}).status(400)
             next();
         })(req, res, next);
     }

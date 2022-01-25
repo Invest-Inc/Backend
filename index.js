@@ -30,7 +30,7 @@ app.get('/',
 app.use('/api/2/auth', require('./routes/auth'));
 app.use('/api/2/currency', require('./routes/currency'));
 app.use('/api/2/startup', require('./routes/startup'));
-
+app.use('/api/2/user', require('./routes/user'));
 
 app.listen(PORT, ()=>{
     console.log(`App listening at port ${PORT}`)
