@@ -25,6 +25,8 @@ router.get('/:username',
             delete user.official_identification_type;
             delete user.email;
             delete user.telephone;
+            // Following
+            user.following = req.user && UserService.followsUser({user_id: req.user.user_id, following_user_id: user.user_id})
             res.json(user);
         } catch(e){
 
@@ -44,10 +46,10 @@ router.post('/:username/follow',
                 }
             });
             if(user == undefined) return res.json({error: "User not found"}).status(404)
-            await UserService.followUser(
-                parseInt(req.user.user_id), 
-                user.user_id
-            );
+            await UserService.followUser({
+                user_id: parseInt(req.user.user_id), 
+                following_user_id: user.user_id
+            });
             res.json({message: "Success"});
         } catch(e){
             res.json(e);
@@ -67,10 +69,10 @@ router.post('/:username/unfollow',
                 }
             })
             if(user == undefined) return res.json({error: "User not found"}).status(404)
-            await UserService.unfollowUser(
-                parseInt(req.user.user_id), 
-                user.user_id
-            );
+            await UserService.unfollowUser({
+                user_id: req.user.user_id, 
+                following_user_id: user.user_id
+            });
             res.json({error: "Success"});
         } catch(e){
             res.json(e);

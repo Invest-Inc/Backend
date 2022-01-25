@@ -12,8 +12,8 @@ router.post('/login',
     async (req, res, next) => {
         passport.authenticate('local', async (err, user, info) => {
             try{
-                if(err || !user) return next(new Error("An error occurred"));
-                req.login(user, {session: false}, async (error) => {
+                if(err || !user) return next(new Error("An error ocurred"));
+                req.login(user, {session: true}, async (error) => {
                     if (error) return next(error);
                     return res.json(
                         jwt.sign({user: {
@@ -22,6 +22,7 @@ router.post('/login',
                     )
                 });
             } catch(e){
+                console.log(e)
                 return next(e);
             }
         })(req, res, next);
@@ -30,23 +31,35 @@ router.post('/login',
 
 router.post('/register',
     async (req, res, next) => {
+        let {name, email, password_hash, birthday, nationality, username, summary, legal_full_name} = req.body;
+        birthday = new Date(birthday);
+        legal_full_name = name;
         try{
-            const user = await UserService.create(req.body);
-            req.logIn(user, next);
+            const user = await UserService.create({
+                data: {name, email, password_hash, birthday, nationality, username, summary, legal_full_name}
+            });
+            req.logIn(user, {session: true}, async (error) => {
+                if (error) return next(error);
+                return res.json(
+                    jwt.sign({user: {
+                        user_id: user.user_id
+                    }}, JWT_SECRET)
+                )
+            });
         } catch(e) {
             console.log(e);
             res.json({error: e});
         }
-    },
-    (req, res) => {
-        res.json({ message: "Created new user" });
     }
 );
 
 router.get('/available/:username', 
     async (req, res, next) => {
         try{
-            res.json({ available: await UserService.checkUsernameAvailability(req.params.username) });
+            const availability = await UserService.checkUsernameAvailability({
+                username: req.params.username
+            })
+            res.json({ available: availability });
         } catch(e){
             res.json({ available: false });
         }

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invest Inc - Registro de experiencia curricular</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <img src="../logo.png" alt="" srcset="">
+    <h1>Experiencia curricular</h1>
+    <form>
+        <fieldset>
+            <legend>Identifícate</legend>
+            <div>
+                <label for="usernaem">Nombre de usuario o correo electrónico</label>
+                <input type="text" name="username" id="username">
+            </div>
+            <div>
+                <label for="password">Contraseña</label>
+                <input type="password" name="password" id="password">
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Experiencia</legend>
+            <div>
+                <label for="type">Tipo de experiencia</label>
+                <select name="type" id="type">
+                    <option value="work">Experiencia Laboral</option>
+                    <option value="education">Educación</option>
+                    <option value="award">Reconocimiento</option>
+                </select>
+            </div>
+            <div style="display: flex; align-items: center;">
+                <div style="flex: 1;">
+                    <label for="start_date">Fecha de inicio</label>
+                    <input type="date" name="start_date" id="start_date">
+                </div>
+                <div style="flex: 1;">
+                    <label for="end_date">Fecha de fin</label>
+                    <input type="date" name="end_date" id="end_date">
+                </div>
+            </div>
+            <div>
+                <label for="organization">Organización</label>
+                <input type="text" name="organization" id="organization">
+            </div>
+            <div>
+                <label for="name">Título de la experiencia</label>
+                <input type="text" name="name" id="name">
+            </div>
+            <div>
+                <label for="description">Descripción</label>
+                <input type="text" name="description" id="description">
+            </div>
+        </fieldset>
+        <hr>
+        <input type="submit" value="Enviar">
+    </form>
+    <script>
+        function formDataJsonify(formdata) {
+            const jsonData = {};
+            for (const [key, value] of formdata) {
+                jsonData[key] = value;
+            }
+            return jsonData;
+        }
+
+
+        document.querySelector('form').addEventListener('submit', async e => {
+            e.preventDefault();
+            const { username, password, type, start_date, end_date, organization, name, description } = formDataJsonify(new FormData(e.target));
+            let bearerToken;
+            {
+                const res = await fetch('/api/2/auth/login', {
+                    body: new URLSearchParams({ username, password }),
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    method: 'POST'
+                });
+                bearerToken = await res.json();
+            }
+            {
+                const res = await fetch('/api/2/me/curriculum', {
+                    body: new URLSearchParams({
+                        type, start_date, end_date, organization, name, description
+                    }),
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "Authorization": `Bearer ${bearerToken}`
+                    },
+                    method: 'POST'
+                });
+                const data = await res.json();
+                console.log(data);
+            }
+            console.log(bearerToken)
+        })
+    </script>
+</body>
+
+</html>

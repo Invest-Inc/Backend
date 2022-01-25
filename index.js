@@ -13,7 +13,12 @@ app.use(cors())
 app.use(express.static('static'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
-app.use(expressSession({secret: AuthenticationService.JWT_SECRET}));
+app.use(expressSession({
+    secret: AuthenticationService.JWT_SECRET, 
+    saveUninitialized: true, 
+    cookie: {maxAge: 1000 * 60 * 60 * 24}, 
+    resave: false
+}));
 // Initialize passport
 app.use(passport.initialize());
 app.use(passport.session());
@@ -31,6 +36,7 @@ app.use('/api/2/auth', require('./routes/auth'));
 app.use('/api/2/currency', require('./routes/currency'));
 app.use('/api/2/startup', require('./routes/startup'));
 app.use('/api/2/user', require('./routes/user'));
+app.use('/api/2/me', require('./routes/me'));
 
 app.listen(PORT, ()=>{
     console.log(`App listening at port ${PORT}`)

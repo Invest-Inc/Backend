@@ -1,29 +1,46 @@
 const Database = require("../database");
 
-
-
-const checkUsernameAvailability = async username => {
+/**
+ * Is this username available?
+ * @param {{username: String}} param0 
+ * @returns {Promise<Boolean>}
+ */
+const checkUsernameAvailability = async ({username}) => {
     const count = await UserService.count({
         where: {username}
     });
     return count == 0;
 }
 
-const getFollowedUsers = async user_id => {
+/**
+ * Returns a list of the users followed by this user
+ * @param {{user_id: Number}} param0 
+ * @returns {Promise<Array>}
+ */
+const getFollowedUsers = async ({user_id}) => {
     const followed = await Database.user_User_Followings.findMany({
         where: {user_id}
     });
     return followed;
 }
 
-const getFollowedStartups = async user_id => {
+/**
+ * Returns a list of the startups followed by this user
+ * @param {{user_id: Number}} param0 
+ * @returns {Promise<Array>}
+ */
+const getFollowedStartups = async ({user_id}) => {
     const followed = await Database.user_Startup_Followings.findMany({
         where: {user_id}
     });
     return followed;
 }
 
-const followUser = async (user_id, following_user_id) => {
+/**
+ * Follows a user
+ * @param {{user_id: Number, following_user_id: Number}} param0 
+ */
+const followUser = async ({user_id, following_user_id}) => {
     await Database.user_User_Followings.create({
         data: {
             user_id, 
@@ -32,14 +49,22 @@ const followUser = async (user_id, following_user_id) => {
     })
 }
 
-const followStartup = async (user_id, following_startup_id) => {
+/**
+ * Follows a startup
+ * @param {{user_id: String, following_startup_id: String}} param0 
+ */
+const followStartup = async ({user_id, following_startup_id}) => {
     await Database.user_Startup_Followings.create({
         user_id, 
         following_startup_id
     })
 }
 
-const unfollowUser = async (user_id, following_user_id) => {
+/**
+ * Unfollows a user
+ * @param {{user_id: String, following_user_id: String}} param0 
+ */
+const unfollowUser = async ({user_id, following_user_id}) => {
     // Find
     let row = await Database.user_User_Followings.findFirst({
         where: {user_id, following_user_id}
@@ -51,7 +76,11 @@ const unfollowUser = async (user_id, following_user_id) => {
     })
 }
 
-const unfollowStartup = async (user_id, following_startup_id) => {
+/**
+ * Unfollows a startup
+ * @param {{user_id: String, following_startup_id: String}} param0 
+ */
+const unfollowStartup = async ({user_id, following_startup_id}) => {
     // Find
     let row = await Database.user_Startup_Followings.findFirst({
         where: {user_id, following_startup_id}
@@ -61,6 +90,22 @@ const unfollowStartup = async (user_id, following_startup_id) => {
     await Database.user_Startup_Followings.delete({
         where: {user_startup_followings_id: row.user_startup_followings_id}
     })
+}
+
+const followsUser = async ({user_id, following_user_id}) => {
+    // Find
+    const count = await Database.user_User_Followings.count({
+        where: {user_id, following_user_id}
+    });
+    return count != 0;
+}
+
+const followsStartup = async ({user_id, following_startup_id}) => {
+    // Find
+    const count = await Database.user_Startup_Followings.count({
+        where: {user_id, following_startup_id}
+    });
+    return count != 0;
 }
 
 const addSocialNetwork = async ({user_id, provider, username, url}) => {
@@ -120,6 +165,8 @@ const UserService = {
     followStartup, 
     unfollowUser, 
     unfollowStartup, 
+    followsUser, 
+    followsStartup,
     // Social networks
     addSocialNetwork, 
     removeSocialNetwork, 

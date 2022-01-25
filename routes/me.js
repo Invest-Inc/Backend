@@ -14,6 +14,7 @@ router.get('/',
             });
             res.json(user);
         } catch(e){
+            console.log(e)
             res.json(e);
         }
     }
@@ -37,7 +38,7 @@ router.get('/following/startups',
     AuthenticationService.authenticate(true),
     async (req, res) => {
         try{
-            const following = await UserService.getFollowedStartups(req.user.user_id);
+            const following = await UserService.getFollowedStartups({user_id: req.user.user_id});
             res.json(following);
         } catch(e){
             res.json(e);
@@ -49,7 +50,7 @@ router.get('/following/users',
     AuthenticationService.authenticate(true), 
     async (req, res) => {
         try{
-            const following = await UserService.getFollowedUsers(req.user.user_id);
+            const following = await UserService.getFollowedUsers({user_id: req.user.user_id});
             res.json(following);
         } catch(e){
             res.json(e);
@@ -61,7 +62,10 @@ router.post('/social',
     AuthenticationService.authenticate(true), 
     async (req, res) => {
         try{
-            await UserService.addSocialNetwork(req.body);
+            await UserService.addSocialNetwork({
+                ...req.body,
+                user_id: req.user.user_id
+            });
             res.json({message: "Success"});
         } catch(e){
             res.json(e);
@@ -87,9 +91,22 @@ router.post('/curriculum',
     AuthenticationService.authenticate(true), 
     async (req, res) => {
         try {
-            await UserService.addCurricularActivity(req.body);
+            let {type, start_date, end_date, organization, name, description} = req.body
+            start_date = new Date(start_date);
+            end_date = new Date(end_date);
+
+            await UserService.addCurricularActivity({
+                type, 
+                start_date, 
+                end_date, 
+                organization, 
+                name, 
+                description,  
+                user_id: req.user.user_id
+            });
             res.json({message: "Success"});
         } catch (e) {
+            console.log(e)
             res.json(e);
         }
     }
@@ -125,3 +142,5 @@ router.delete('/curriculum/:user_curricular_activity_id',
         }
     }
 );
+
+module.exports = router;

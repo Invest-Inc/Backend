@@ -1,13 +1,12 @@
 const { default: fetch } = require("cross-fetch");
 
-const CurrencyService = {};
 
 /**
- * Converts a value from one currency to another
+ * Converts a value from one currency to another 
  * @param {{from: String, to: String, amount: Number}} param0 
  * @returns {{from: String, to: String, amount: Number, convertionRate: Number, lastUpdateUTC: Date, result: Number}}
  */
-CurrencyService.convert = async ({from, to, amount}) => {
+const convert = async ({from, to, amount}) => {
     // Call API
     const  res = await fetch(`https://open.er-api.com/v6/latest/${from}`);
     const data = await res.json();
@@ -18,5 +17,9 @@ CurrencyService.convert = async ({from, to, amount}) => {
     const result = amount * convertionRate;
     return {from, to, amount, convertionRate, lastUpdateUTC, result}
 }
+
+const CurrencyService = {
+    convert
+};
 
 module.exports = CurrencyService;

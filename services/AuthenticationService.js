@@ -1,81 +1,3 @@
-/* const passport = require("passport");
-const Database = require("./database");
-
-const LocalStrategy = require('passport-local');
-const JWTstrategy = require('passport-jwt').Strategy;
-const ExtractJWT = require('passport-jwt').ExtractJwt;
-
-const UserService = require("./user");
-
-const JWT_SECRET = "1nv3stInC"
-
-passport.use('local',
-    new LocalStrategy(async (username, password, next) => {
-        try{
-            // Try finding by email
-            let user = await Database.user.findUnique({where: {email: username}, include: {LegalEntity: true}});
-            // Try finding by username
-            if(user == undefined) user = await Database.user.findUnique({where: {username}, include: {LegalEntity: true}})
-            // If still not found...
-            if(user == undefined) return next(null, false, {message: "User not found"});
-            if(user.password != password) return next(null, false, {message: "Incorrect password"});
-            return next(null, user);
-        } catch(e){
-            next(e);
-        }
-    })
-)
-
-passport.use('jwt',
-    new JWTstrategy(
-        {
-            secretOrKey: JWT_SECRET, 
-            jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken()
-        },
-        async (token, done) => {
-            try{
-                // Try finding user
-                let user = await UserService.findUnique({where: {legalEntity_id: token.user.legalEntity_id}, include: {LegalEntity: true}})
-                // If not found
-                if(user == undefined) return next(null, false, {message: "User not found"});
-                return done(null, user)
-            } catch(e){
-                done(e)
-            }
-        }
-    )
-)
-
-
-passport.serializeUser((user, next) => {
-    process.nextTick(()=>{
-        next(null, user.legalEntity_id)
-    })
-})
-
-passport.deserializeUser((id, next) => {
-    process.nextTick(async ()=>{
-        const user = await Database.user.findUnique({
-            where: {legalEntity_id: id}, 
-            include: {LegalEntity: true}}
-        );
-        next(null, user)
-    })
-})
-
-const AuthenticationService = {};
-
-AuthenticationService.authenticate = (optional) => (
-    async (req, res, next) => {
-        passport.authenticate('jwt', (err, user, info) => {
-            req.user = user;
-            next()
-        })(req, res, next)
-    }
-)
-
-module.exports = AuthenticationService; */
-
 const passport = require('passport');
 const Database = require('../database');
 const LocalStrategy = require('passport-local');
@@ -85,6 +7,10 @@ const UserService = require('./UserService');
 
 const JWT_SECRET = "1nv3stInC";
 
+/**
+ * Passport strategy for simple email and password login
+ * A form receives the data and the API returns a bearer token for future transactions
+ */
 passport.use('local', 
     new LocalStrategy(async (username, password, next) => {
         try{
@@ -109,6 +35,11 @@ passport.use('local',
     })
 )
 
+/**
+ * Passport strategy for using a JSON web token for authentication
+ * The token is generated after logging in with an email and password
+ * This strategy is used throughout the system for authenticated endpoints
+ */
 passport.use('jwt', 
     new JwtStrategy(
         {
@@ -127,12 +58,18 @@ passport.use('jwt',
     )
 )
 
+/**
+ * The user_id is stored
+ */
 passport.serializeUser((user, next) => {
     process.nextTick(()=>{
         next(null, user.user_id);
     });
 });
 
+/**
+ * From the stored user_id, the whole user object is retrieved
+ */
 passport.deserializeUser((user_id, next) => {
     process.nextTick(async ()=>{
         const user = await UserService.findUnique({
@@ -146,11 +83,16 @@ const AuthenticationService = {};
 
 AuthenticationService.JWT_SECRET = JWT_SECRET;
 
+/**
+ * Express Middleware for optionally authenticating users
+ * @param {Bool} required Throw error if user is not authenticated?
+ * @returns {}
+ */
 AuthenticationService.authenticate = (required = false) => (
     async (req, res, next) => {
         passport.authenticate('jwt', (err, user, info) => {
             req.user = user;
-            if(required && user == undefined) res.json({error: "Unauthorized"}).status(400)
+            if(required && !req.user) return res.json({error: "Unauthorized"}).status(400)
             next();
         })(req, res, next);
     }
