@@ -8,6 +8,7 @@ const AuthenticationService = require("../services/AuthenticationService");
 const res = require("express/lib/response");
 const JWT_SECRET = AuthenticationService.JWT_SECRET;
 
+// * Login with username and password
 router.post('/login', 
     async (req, res, next) => {
         passport.authenticate('local', async (err, user, info) => {
@@ -29,9 +30,10 @@ router.post('/login',
     }
 );
 
+// * Register a new user
 router.post('/register',
     async (req, res, next) => {
-        let {name, email, password_hash, birthday, nationality, username, summary, legal_full_name} = req.body;
+        let {npame, email, password_hash, birthday, nationality, username, summary, legal_full_name} = req.body;
         birthday = new Date(birthday);
         legal_full_name = name;
         try{
@@ -53,6 +55,7 @@ router.post('/register',
     }
 );
 
+// * Validates an available username
 router.get('/available/:username', 
     async (req, res, next) => {
         try{
@@ -66,21 +69,11 @@ router.get('/available/:username',
     }
 );
 
+// * Logs a user out
 router.get('/logout',
     (req, res) => {
         req.logout();
         res.json({ message: "Logged out." });
-    }
-);
-
-router.get('/current',
-    AuthenticationService.authenticate(),
-    async (req, res) => {
-        if(req.isAuthenticated()) {
-            res.json(req.user);
-        } else {
-            res.json({error: "Unauthorized"}).status(400);
-        }
     }
 );
 

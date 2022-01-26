@@ -10,12 +10,22 @@ router.post('/',
     AuthenticationService.authenticate(true), 
     async (req, res) => {
         try{
+            let {name, summary, industry, economic_sector, constitution_date, constitution_country, headquarters_country, international_operations_countries} = req.body;
+            constitution_date = new Date(constitution_date);
             const data = await StartupService.create({
                 data: {
-                    ...req.body,
+                    name, 
+                    summary, 
+                    industry, 
+                    economic_sector, 
+                    constitution_date,
+                    constitution_country, 
+                    headquarters_country, 
+                    international_operations_countries, 
                     Startup_Admin: {
                         create: {
-                            user_id: req.user.user_id
+                            user_id: req.user.user_id, 
+                            priviledge: "admin"
                         }
                     }
                 }

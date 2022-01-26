@@ -110,18 +110,18 @@ const followsStartup = async ({user_id, following_startup_id}) => {
 
 const addSocialNetwork = async ({user_id, provider, username, url}) => {
     // Create
-    await Database.user_Social_Newtorks.create({
+    await Database.User_Social_Networks.create({
         data: {user_id, provider, username, url}
     })
 }
 
 const removeSocialNetwork = async ({user_id, provider}) => {
     // Find
-    const row = await Database.user_Social_Newtorks.findFirst({
+    const row = await Database.User_Social_Networks.findFirst({
         where: {user_id, provider}
     });
     // Delete
-    await Database.user_Social_Newtorks.delete({
+    await Database.User_Social_Networks.delete({
         where: {user_social_networks_id: row.user_social_networks_id}
     });
 }

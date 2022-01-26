@@ -16,7 +16,7 @@ router.get('/:username',
                 }, 
                 include: {
                     User_Curricular_Activity: true, 
-                    User_Social_Newtorks: true
+                    User_Social_Networks: true
                 }
             });
             // Delete private data

@@ -3,6 +3,7 @@ const AuthenticationService = require("../services/AuthenticationService");
 const UserService = require("../services/UserService");
 const router = express.Router();
 
+// * Get user info
 router.get('/', 
     AuthenticationService.authenticate(true), 
     async (req, res) => {
@@ -20,6 +21,7 @@ router.get('/',
     }
 );
 
+// * Update user info
 router.put('/', 
     AuthenticationService.authenticate(true), 
     async (req, res) => {
@@ -28,6 +30,7 @@ router.put('/',
                 where: {user_id: req.user.user_id}, 
                 data: req.body
             })
+            res.json({message: "Success"})
         } catch (e) {
             res.json(e);
         }
@@ -61,9 +64,12 @@ router.get('/following/users',
 router.post('/social', 
     AuthenticationService.authenticate(true), 
     async (req, res) => {
+        const {provider, username, url} = req.body;
+        if(!provider || !username || !url)
+            res.json({error: "Add all parameters"});
         try{
             await UserService.addSocialNetwork({
-                ...req.body,
+                provider, username, url,
                 user_id: req.user.user_id
             });
             res.json({message: "Success"});

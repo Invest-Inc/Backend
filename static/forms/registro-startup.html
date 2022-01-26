@@ -38,8 +38,8 @@
                 <input type="text" name="industry" id="industry">
             </div>
             <div>
-                <label for="sector">Sector económico</label>
-                <input type="text" name="sector" id="sector">
+                <label for="economic_sector">Sector económico</label>
+                <input type="text" name="economic_sector" id="economic_sector">
             </div>
         </fieldset>
 
@@ -322,5 +322,44 @@
         <input type="submit" value="Enviar">
 
     </form>
+
+    <script>
+        function formDataJsonify(formdata) {
+            const jsonData = {};
+            for (const [key, value] of formdata) {
+                jsonData[key] = value;
+            }
+            return jsonData;
+        }
+
+        document.querySelector('form').addEventListener('submit', async e => {
+            e.preventDefault();
+            const {username, password, name, summary, industry, economic_sector, constitution_date, constitution_country, headquarters_country, international_operations_countries} = formDataJsonify(new FormData(e.target));
+            let bearerToken;
+            {
+                const res = await fetch('/api/2/auth/login', {
+                    body: new URLSearchParams({ username, password }),
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    method: 'POST'
+                });
+                bearerToken = await res.json();
+            }
+            {
+                const res = await fetch(`/api/2/startup`, {
+                    method: 'POST', 
+                    headers: {
+                        "Authorization": `Bearer ${bearerToken}`, 
+                        'Accept': 'application/json, text/plain, */*',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({name, summary, industry, economic_sector, constitution_date: new Date(constitution_date), constitution_country, headquarters_country, international_operations_countries})
+                });
+                const data = await res.json();
+                console.log(data);
+            }
+        });
+    </script>
 </body>
 </html>

@@ -2,6 +2,7 @@ const express = require("express");
 const CurrencyService = require("../services/CurrencyService");
 const router = express.Router();
 
+// * Convert
 router.get('/', async (req, res) => {
     const {from, to, amount} = req.query;
     if(from == undefined || to == undefined || amount == undefined)
