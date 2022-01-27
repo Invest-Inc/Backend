@@ -3,7 +3,7 @@ const AuthenticationService = require("../services/AuthenticationService");
 const UserService = require("../services/UserService");
 const router = express.Router();
 
-// Get user
+// * Get user
 router.get('/:username', 
     AuthenticationService.authenticate(false), 
     async (req, res) => {

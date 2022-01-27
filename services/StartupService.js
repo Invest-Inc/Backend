@@ -5,16 +5,18 @@ const Database = require("../database");
  * @param  {...any} priviledge List of required priviledge tags
  * @returns {}
  */
-const permissionsMiddleware = (...priviledge) => (
+const permissionsMiddleware = (...priviledges) => (
     async (req, res, next) => {
-        const priviledges = await Database.startup_Admin.findFirst({
+        const admin = await Database.startup_Admin.findFirst({
             where: {
                 startup_id: parseInt(req.params.startup_id), 
                 user_id: parseInt(req.user.user_id)
             }
         })
+        if(admin == undefined) 
+            return res.json({error: "Unauthorized"}).status(400);
         for(let priviledge of priviledges){
-            if(priviledges.priviledge == priviledge) return next();
+            if(admin.priviledge == priviledge) return next();
         }
         return res.json({error: "Unauthorized"}).status(400);
     }

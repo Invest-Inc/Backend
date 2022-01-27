@@ -61,6 +61,7 @@ router.get('/following/users',
     }
 );
 
+// * Add social media
 router.post('/social', 
     AuthenticationService.authenticate(true), 
     async (req, res) => {
@@ -79,6 +80,7 @@ router.post('/social',
     }
 );
 
+// * Remove social media
 router.delete('/social/:provider', 
     AuthenticationService.authenticate(true),
     async (req, res) => {
@@ -87,12 +89,14 @@ router.delete('/social/:provider',
                 user_id: req.user.user_id, 
                 provider: req.params.provider
             })
+            res.json({message: "Success"})
         } catch(e){
             res.json(e);
         }
     }
 );
 
+// * Add curricular activity
 router.post('/curriculum', 
     AuthenticationService.authenticate(true), 
     async (req, res) => {
@@ -118,13 +122,22 @@ router.post('/curriculum',
     }
 )
 
+// * Update curricular activity
 router.put('/curriculum/:user_curricular_activity_id', 
     AuthenticationService.authenticate(true), 
     async (req, res) => {
         try {
+            let {type, start_date, end_date, organization, name, description} = req.body
+            start_date = new Date(start_date);
+            end_date = new Date(end_date);
             await UserService.modifyCurricularActivity({
-                ...req.body, 
-                user_curricular_activity_id: req.params.user_curricular_activity_id,
+                type, 
+                start_date, 
+                end_date, 
+                organization, 
+                name, 
+                description,
+                user_curricular_activity_id: parseInt(req.params.user_curricular_activity_id),
                 user_id: req.user.user_id
             });
             res.json({message: "Success"});
@@ -134,16 +147,18 @@ router.put('/curriculum/:user_curricular_activity_id',
     }
 );
 
+// * Delete curricular activity
 router.delete('/curriculum/:user_curricular_activity_id', 
     AuthenticationService.authenticate(true), 
     async (req, res) => {
         try {
             await UserService.removeCurricularActivity({
-                user_curricular_activity_id: req.params.user_curricular_activity_id, 
+                user_curricular_activity_id: parseInt(req.params.user_curricular_activity_id), 
                 user_id: req.user.user_id
             });
             res.json({message: "Success"});
         } catch (e) {
+            console.log(e)
             res.json(e);
         }
     }

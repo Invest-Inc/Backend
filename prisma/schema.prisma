@@ -27,6 +27,8 @@ model Startup {
   profile_creation_date              DateTime                  @default(now()) @db.Timestamp(6)
   Startup_Admin                      Startup_Admin[]
   Startup_Employee                   Startup_Employee[]
+  Update_Balance_Sheet               Update_Balance_Sheet[]
+  Update_Income_Statement            Update_Income_Statement[]
   Update_News                        Update_News[]
   Update_Operations                  Update_Operations[]
   User_Startup_Followings            User_Startup_Followings[]
@@ -53,6 +55,29 @@ model Startup_Employee {
   User                User?    @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
 
   @@unique([startup_id, user_id])
+}
+
+model Update_Balance_Sheet {
+  update_balance_sheet_id Int       @id @default(autoincrement())
+  date                    DateTime? @default(now()) @db.Timestamp(6)
+  startup_id              Int?
+  resource_url            String?   @db.VarChar
+  Startup                 Startup?  @relation(fields: [startup_id], references: [startup_id], onDelete: Cascade)
+}
+
+model Update_Cash_Flow {
+  update_cash_flow_id Int       @id @default(autoincrement())
+  date                DateTime? @default(now()) @db.Timestamp(6)
+  startup_id          Int?
+  resource_url        String?   @db.VarChar
+}
+
+model Update_Income_Statement {
+  update_income_statement Int       @id @default(autoincrement())
+  date                    DateTime? @default(now()) @db.Timestamp(6)
+  startup_id              Int?
+  resource_url            String?   @db.VarChar
+  Startup                 Startup?  @relation(fields: [startup_id], references: [startup_id], onDelete: Cascade)
 }
 
 model Update_News {
@@ -125,6 +150,8 @@ model User_Social_Network {
   url                     String? @db.VarChar
   user_social_networks_id Int     @id(map: "User_Social_Newtorks_pkey") @default(autoincrement())
   User                    User?   @relation(fields: [user_id], references: [user_id], onDelete: Cascade, map: "User_Social_Newtorks_user_id_fkey")
+
+  @@unique([user_id, provider])
 }
 
 model User_Startup_Followings {
