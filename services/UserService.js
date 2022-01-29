@@ -55,8 +55,10 @@ const followUser = async ({user_id, following_user_id}) => {
  */
 const followStartup = async ({user_id, following_startup_id}) => {
     await Database.user_Startup_Followings.create({
-        user_id, 
-        following_startup_id
+        data: {
+            user_id, 
+            following_startup_id
+        }
     })
 }
 

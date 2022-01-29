@@ -8,29 +8,27 @@ datasource db {
 }
 
 model Startup {
-  startup_id                         Int                       @id @default(autoincrement())
-  profile_picture_url                String?                   @db.VarChar
-  header_picture_url                 String?                   @db.VarChar
-  pitch_video_url                    String?                   @db.VarChar
-  name                               String?                   @db.VarChar
+  startup_id                         Int                        @id @default(autoincrement())
+  profile_picture_url                String?                    @db.VarChar
+  header_picture_url                 String?                    @db.VarChar
+  pitch_video_url                    String?                    @db.VarChar
+  name                               String?                    @db.VarChar
   summary                            String?
-  industry                           String?                   @db.VarChar
-  constitution_date                  DateTime?                 @db.Timestamp(6)
-  constitution_country               String?                   @db.VarChar
-  official_identification_type       String?                   @db.VarChar
-  official_identification_src        String?                   @db.VarChar
-  headquarters_country               String?                   @db.VarChar
+  industry                           String?                    @db.VarChar
+  constitution_date                  DateTime?                  @db.Timestamp(6)
+  constitution_country               String?                    @db.VarChar
+  official_identification_type       String?                    @db.VarChar
+  official_identification_src        String?                    @db.VarChar
+  headquarters_country               String?                    @db.VarChar
   international_operations_countries String?
-  economic_sector                    String?                   @db.VarChar
-  business_model                     String?                   @db.VarChar
-  monetization_plans_count           Int?                      @default(1)
-  profile_creation_date              DateTime                  @default(now()) @db.Timestamp(6)
+  economic_sector                    String?                    @db.VarChar
+  business_model                     String?                    @db.VarChar
+  monetization_plans_count           Int?                       @default(1)
+  profile_creation_date              DateTime                   @default(now()) @db.Timestamp(6)
   Startup_Admin                      Startup_Admin[]
   Startup_Employee                   Startup_Employee[]
-  Update_Balance_Sheet               Update_Balance_Sheet[]
-  Update_Income_Statement            Update_Income_Statement[]
-  Update_News                        Update_News[]
-  Update_Operations                  Update_Operations[]
+  Startup_Update                     Startup_Update[]
+  Update_Data_Balance_Sheet          Update_Data_Balance_Sheet?
   User_Startup_Followings            User_Startup_Followings[]
 }
 
@@ -57,51 +55,18 @@ model Startup_Employee {
   @@unique([startup_id, user_id])
 }
 
-model Update_Balance_Sheet {
-  update_balance_sheet_id Int       @id @default(autoincrement())
-  date                    DateTime? @default(now()) @db.Timestamp(6)
-  startup_id              Int?
-  resource_url            String?   @db.VarChar
-  Startup                 Startup?  @relation(fields: [startup_id], references: [startup_id], onDelete: Cascade)
-}
+model Startup_Update {
+  startup_update_id Int       @id @default(autoincrement())
+  startup_id        Int?
+  title             String?   @db.VarChar
+  description       String?   @db.VarChar
+  type              String?   @db.VarChar
+  date              DateTime? @default(now()) @db.Timestamp(6)
+  resource_url      String?   @db.VarChar
+  data              String?   @db.Xml
+  Startup           Startup?  @relation(fields: [startup_id], references: [startup_id], onDelete: Cascade)
 
-model Update_Cash_Flow {
-  update_cash_flow_id Int       @id @default(autoincrement())
-  date                DateTime? @default(now()) @db.Timestamp(6)
-  startup_id          Int?
-  resource_url        String?   @db.VarChar
-}
-
-model Update_Income_Statement {
-  update_income_statement Int       @id @default(autoincrement())
-  date                    DateTime? @default(now()) @db.Timestamp(6)
-  startup_id              Int?
-  resource_url            String?   @db.VarChar
-  Startup                 Startup?  @relation(fields: [startup_id], references: [startup_id], onDelete: Cascade)
-}
-
-model Update_News {
-  update_news_id Int       @id @default(autoincrement())
-  date           DateTime? @default(now()) @db.Timestamp(6)
-  startup_id     Int?
-  title          String?   @db.VarChar
-  content        String?   @db.VarChar
-  picture_url    String?   @db.VarChar
-  Startup        Startup?  @relation(fields: [startup_id], references: [startup_id], onDelete: Cascade)
-}
-
-model Update_Operations {
-  startup_id            Int?
-  update_operations_id  Int       @id @default(autoincrement())
-  date                  DateTime? @default(now()) @db.Timestamp(6)
-  supplier_relationship Int?      @default(0)
-  product_replacement   Int?      @default(0)
-  market_penetration    Int?      @default(0)
-  competition           Int?      @default(0)
-  customer_loyalty      Int?      @default(0)
-  operatingRequirements String?
-  operatingRate         Float?
-  Startup               Startup?  @relation(fields: [startup_id], references: [startup_id], onDelete: Cascade)
+  @@index([startup_id], map: "Startup_Update_startup")
 }
 
 model User {
@@ -172,6 +137,13 @@ model User_User_Followings {
   User_UserToUser_User_Followings_user_id           User? @relation("UserToUser_User_Followings_user_id", fields: [user_id], references: [user_id], onDelete: Cascade)
 
   @@unique([user_id, following_user_id])
+}
+
+model Update_Data_Balance_Sheet {
+  startup_update_id Int     @id
+  someCol           String? @db.VarChar
+  someOtherCol      String? @db.VarChar
+  Startup           Startup @relation(fields: [startup_update_id], references: [startup_id], onDelete: Cascade)
 }
 
 enum inv_businessadmin_permission {

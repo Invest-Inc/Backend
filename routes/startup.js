@@ -87,12 +87,13 @@ router.post('/:startup_id/follow',
             });
             res.json({message: "Success"});
         } catch(e){
+            console.log(e)
             res.json(e);
         }
     }
 );
 
-// Unfollow a startup
+// * Unfollow a startup
 router.post('/:startup_id/unfollow', 
     AuthenticationService.authenticate(true), 
     async (req, res) => {
@@ -101,6 +102,7 @@ router.post('/:startup_id/unfollow',
                 user_id: req.user.user_id, 
                 following_startup_id: parseInt(req.params.startup_id)
             });
+            res.json({message: "Success"});
         } catch(e){
             res.json(e);
         }
@@ -197,7 +199,7 @@ router.post('/:startup_id/employees',
     }
 )
 
-// Delete employee
+// * Delete employee
 router.delete('/:startup_id/employees/:user_id', 
     AuthenticationService.authenticate(true), 
     StartupService.permissionsMiddleware("admin", "editor"), 
@@ -215,47 +217,116 @@ router.delete('/:startup_id/employees/:user_id',
     }
 );
 
-// Get updates
+// * Get all updates (references)
 router.get('/:startup_id/updates', 
     async (req, res) => {
         try{
-            const updates = await StartupUpdateService.getAllUpdatesReferences({
-                startup_id: parseInt(req.params.startup_id)
+            const data = await StartupUpdateService.findMany({
+                where: {
+                    startup_id: parseInt(req.params.startup_id),
+                }, 
+                select: {
+                    data: false, 
+                    date: true, 
+                    description: true, 
+                    resource_url: true, 
+                    startup_id: true, 
+                    startup_update_id: true, 
+                    title: true, 
+                    type: true
+                }
             });
-            return res.json(updates);
+            res.json(data);
         } catch(e){
             res.json(e);
         }
     }
 );
 
-// Get specific types of updates
-router.get('/:startup_id/updates/:update_type', 
+// * Post an update
+router.post('/:startup_id/updates', 
+    AuthenticationService.authenticate(true), 
+    StartupService.permissionsMiddleware("admin", "editor"), 
     async (req, res) => {
         try{
-            let updates;
-            let condition = {where: {startup_id: parseInt(req.params.startup_id)}}
-            switch(req.params.update_type){
-                case 'balancesheet':
-                    updates = await StartupUpdateService.BalanceSheet.findMany(condition);
-                    break;
-                case 'cashflow':
-                    updates = await StartupUpdateService.CashFlow.findMany(condition);
-                    break;
-                case 'incomestatement':
-                    updates = await StartupUpdateService.IncomeStatement.findMany(condition);
-                    break;
-                case 'news':
-                    updates = await StartupUpdateService.News.findMany(condition);
-                    break;
-                case 'operations':
-                    updates = await StartupUpdateService.Operations.findMany(condition);
-                    break;
-                default:
-                    return res.json({error: "Invalid type of update"});
-            }
-            res.json(updates);
+            let {title, description, type, date, resource_url, data} = req.body;
+            date = new Date(date);
+            if(["news", "balancesheet", "cashflow", "operations"].findIndex(e => e == type) == -1)    
+                return res.json({error: "Enter a valid update type"});
+            await StartupUpdateService.create({
+                data: {
+                    startup_id: parseInt(req.params.startup_id), 
+                    title, 
+                    description, 
+                    type, 
+                    date, 
+                    resource_url, 
+                    data
+                }
+            });
+            res.json({message: "Success"})
         } catch(e){
+            console.log(e)
+            res.json(e);
+        }
+    }
+);
+
+// * Update an update
+router.put('/:startup_id/updates/:startup_update_id', 
+    AuthenticationService.authenticate(true), 
+    StartupService.permissionsMiddleware("admin", "editor"), 
+    async (req, res) => {
+        // Delete fields from body
+        delete req.body?.date;
+        delete req.body?.type;
+        delete req.body?.startup_id;
+        delete req.body?.startup_update_id;
+        try {
+            // Find
+            let data = await StartupUpdateService.findFirst({
+                where: {
+                    startup_id: parseInt(req.params.startup_id), 
+                    startup_update_id: parseInt(req.params.startup_update_id)
+                }, 
+                select: {
+                    startup_update_id: true
+                }
+            })
+            // Update
+            await StartupUpdateService.update({
+                where: {startup_update_id: data.startup_update_id}, 
+                data: req.body
+            });
+            res.json({message: "Success"});
+        } catch(e){
+            res.json(e);
+        }
+    }
+);
+
+// * Delete an update
+router.delete('/:startup_id/updates/:startup_update_id', 
+    AuthenticationService.authenticate(true), 
+    StartupService.permissionsMiddleware("admin", "editor"), 
+    async (req, res) => {
+        try {
+            // Find
+            let data = await StartupUpdateService.findFirst({
+                where: {
+                    startup_id: parseInt(req.params.startup_id), 
+                    startup_update_id: parseInt(req.params.startup_update_id)
+                }, 
+                select: {
+                    startup_update_id: true
+                }
+            });
+            // Delete
+            await StartupUpdateService.delete({
+                where: {startup_update_id: data.startup_update_id}
+            });
+            res.json({message: "Success"});
+        } catch (e) {
             res.json(e);
         }
     }
