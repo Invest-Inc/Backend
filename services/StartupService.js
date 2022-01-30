@@ -63,7 +63,10 @@ const removeAdmin = async ({user_id, startup_id, priviledge}) => {
  */
 const getEmployees = async ({startup_id}) => {
     return await Database.startup_Employee.findMany({
-        where: {startup_id}
+        where: {startup_id}, 
+        include: {
+            User: true
+        }
     })
 }
 
