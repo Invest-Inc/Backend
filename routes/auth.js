@@ -33,7 +33,7 @@ router.post('/login',
 // * Register a new user
 router.post('/register',
     async (req, res, next) => {
-        let {npame, email, password_hash, birthday, nationality, username, summary, legal_full_name} = req.body;
+        let {name, email, password_hash, birthday, nationality, username, summary, legal_full_name} = req.body;
         birthday = new Date(birthday);
         legal_full_name = name;
         try{
