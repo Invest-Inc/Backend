@@ -16,7 +16,7 @@ router.get('/:username',
                 }, 
                 include: {
                     User_Curricular_Activity: true, 
-                    User_Social_Networks: true
+                    User_Social_Network: true
                 }
             });
             // Delete private data
@@ -29,6 +29,7 @@ router.get('/:username',
             user.following = req.user && UserService.followsUser({user_id: req.user.user_id, following_user_id: user.user_id})
             res.json(user);
         } catch(e){
+            console.log(e);
             res.json(e);
         }
     }
