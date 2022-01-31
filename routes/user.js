@@ -81,4 +81,26 @@ router.post('/:username/unfollow',
     }
 );
 
+// Get curricular activity
+router.get('/:username/curriculum', 
+    async (req, res) => {
+        try {
+            // Find user
+            let user = await UserService.findUnique({
+                where: {username: req.params.username}, 
+                select: {
+                    user_id: true
+                }
+            })
+            if(user == undefined) 
+                return res.json({error: "User not found"}).status(400);
+            // Get curriculum
+            let data = await UserService.getCurricularActivity({user_id: user.user_id});
+            res.json(data);
+        } catch (e) {
+            res.json(e);
+        }
+    }
+)
+
 module.exports = router;

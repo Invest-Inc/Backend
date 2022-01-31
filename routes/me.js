@@ -96,6 +96,21 @@ router.delete('/social/:provider',
     }
 );
 
+// * Get curricular activity
+router.get('/curriculum', 
+    AuthenticationService.authenticate(true), 
+    async (req, res) => {
+        try{
+            let data = await UserService.getCurricularActivity({
+                user_id: req.user.user_id
+            });
+            res.json(data);
+        } catch(e){
+            res.json(e);
+        }
+    }
+)
+
 // * Add curricular activity
 router.post('/curriculum', 
     AuthenticationService.authenticate(true), 

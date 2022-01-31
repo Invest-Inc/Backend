@@ -134,6 +134,12 @@ const addCurricularActivity = async ({user_id, start_date, end_date, type, organ
     });
 }
 
+const getCurricularActivity = async ({user_id}) => {
+    return await Database.user_Curricular_Activity.findMany({
+        where: {user_id}
+    })
+}
+
 const modifyCurricularActivity = async ({user_curricular_activity_id, user_id, start_date, end_date, type, organization, name, description}) => {
     let row = await Database.user_Curricular_Activity.findFirst({
         where: {user_curricular_activity_id, user_id}
@@ -173,6 +179,7 @@ const UserService = {
     addSocialNetwork, 
     removeSocialNetwork, 
     // Curricular activity
+    getCurricularActivity, 
     addCurricularActivity, 
     modifyCurricularActivity, 
     removeCurricularActivity
