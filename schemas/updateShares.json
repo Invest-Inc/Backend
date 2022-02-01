@@ -1,0 +1,12 @@
+{
+    "title": "Actualización de participaciones",
+    "description": "Este nuevo mes estamos muy contentos", 
+    "type": "shares", 
+    "date": "2022-02-01T00:00:00.000Z", 
+    "resource_url": "https://investincgroup.com/", 
+    "data": {
+        "foundersSharePercentage": 0.4, 
+        "sharesType": "", 
+        "employeePoolPercentage": 0.2
+    }
+}

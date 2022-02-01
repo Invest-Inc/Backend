@@ -1,0 +1,17 @@
+{
+    "$schema": "http://json-schema.org/schema", 
+    "$id": "http://api.investincgroup.com/schemas/incomestatement.schema.json", 
+    "title": "Income Statement Schema", 
+    "description": "Schema for stroring general purpose income statements in a structured way", 
+    "properties": {
+        "meta": {
+            "description": "Additional metadata about this income statement", 
+            "properties": {
+                "currency": {
+                    "description": "Currency (in ISO 4217 format) which numbers are expressed",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "title": "Actualización de participaciones",
+    "description": "Este nuevo mes estamos muy contentos", 
+    "type": "uniteconomics", 
+    "date": "2022-02-01T00:00:00.000Z", 
+    "resource_url": "https://investincgroup.com/", 
+    "data": {
+        "currency": "COP", 
+        "time_unit": "months", 
+        "average_customer_lifetime": 4, 
+        "average_order_value": 4,
+        "average_revenue_per_user": 10, 
+        "mrr_last_period_users": 10, 
+        "customer_beginning": 3, 
+        "customer_ending": 4, 
+        "new_customers": 10, 
+        "sales_and_marketing": 8, 
+        "recurrent_revenue_churned": 10, 
+        "last_period_sales_growth": 0.4 
+    }
+}

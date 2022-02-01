@@ -1,0 +1,18 @@
+{
+    "title": "Actualización de participaciones",
+    "description": "Este nuevo mes estamos muy contentos", 
+    "type": "operations", 
+    "date": "2022-02-01T00:00:00.000Z", 
+    "resource_url": "https://investincgroup.com/", 
+    "data": {
+        "supplier_relationship": 2,
+        "product_replacement": 3, 
+        "market_penetration": 4, 
+        "competition": 1, 
+        "customer_loyalty": 2, 
+        "industry_agressiveness": 3, 
+        "operational_level": 0.7,
+        "operational_requirements": ["espacios de oficina", "computadoras", "internet"], 
+        "operating_issues": ["fuerza de trabajo no motivada", "espacios de oficinas pequeños"]
+    }
+}

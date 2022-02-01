@@ -32,6 +32,8 @@ app.get('/',
     }
 );
 
+app.use('/schemas', express.static('schemas'))
+
 app.use('/api/2/auth', require('./routes/auth'));
 app.use('/api/2/currency', require('./routes/currency'));
 app.use('/api/2/startup', require('./routes/startup'));
