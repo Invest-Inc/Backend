@@ -3,8 +3,10 @@
     "$id": "http://api.investincgroup.com/schemas/balancesheet.schema.json",
     "title": "Balance Sheet Schema",
     "description": "Schema for storing general-purpose balance sheets in a structured way",
+    "type": "object",
     "properties": {
         "meta": {
+            "type": "object",
             "description": "Aditional metadata about this balance sheet", 
             "properties": {
                 "currency": {
@@ -14,6 +16,7 @@
             }
         },
         "assets": {
+            "type": "object",
             "description": "An asset is something which a person or firm owns that is of value. It is split into fixed and current",
             "properties": {
                 "total": {
@@ -21,6 +24,7 @@
                     "type": "number"
                 },
                 "current_assets": {
+                    "type": "object",
                     "description": "Short-term assets that can be converted to cash within a year",
                     "properties": {
                         "total": {
@@ -56,6 +60,7 @@
                     ]
                 },
                 "long_term_assets": {
+                    "type": "object",
                     "description": "Assets that have a lifespan greater than a year",
                     "properties": {
                         "total": {
@@ -88,6 +93,7 @@
                     ]
                 },
                 "other_assets": {
+                    "type": "object",
                     "description": "Others...",
                     "properties": {
                         "total": {
@@ -127,6 +133,7 @@
             ]
         },
         "liabilities": {
+            "type": "object",
             "description": "A liability is something which is potentially owed to someone. They may be either current or long term",
             "properties": {
                 "total": {
@@ -134,6 +141,7 @@
                     "type": "number"
                 },
                 "current_liabilities": {
+                    "type": "object",
                     "description": "Short-term debts that must be repaid within a year",
                     "properties": {
                         "total": {
@@ -179,6 +187,7 @@
                     ]
                 },
                 "long_term_liabilities": {
+                    "type": "object",
                     "description": "Items owed that are due for repayment in more than a year",
                     "properties": {
                         "total": {
@@ -208,6 +217,7 @@
             ]
         },
         "equity": {
+            "type": "object",
             "description": "Equity",
             "properties": {
                 "total": {
@@ -250,28 +260,46 @@
             ]
         },
         "financial_ratios": {
+            "type": "object",
             "description": "Ratios calculated from data in balance sheet", 
             "properties": {
                 "liquidity": {
+                    "type": "object",
                     "description": "", 
                     "properties": {
-                        "current_ratio": {}, 
-                        "acid_test": {}, 
-                        "net_working_capital": {}
+                        "current_ratio": {
+                            "type": "number"
+                        }, 
+                        "acid_test": {
+                            "type": "number"
+                        }, 
+                        "net_working_capital": {
+                            "type": "number"
+                        }
                     }
                 },
                 "leverage": {
+                    "type": "object",
                     "description": "", 
                     "properties": {
-                        "debt_to_worth": {}, 
-                        "debt_ratio": {}
+                        "debt_to_worth": {
+                            "type": "number"
+                        }, 
+                        "debt_ratio": {
+                            "type": "number"
+                        }
                     }
                 }, 
                 "profitability": {
+                    "type": "object",
                     "description": "", 
                     "properties": {
-                        "return_on_equity": {}, 
-                        "return_on_assets": {}
+                        "return_on_equity": {
+                            "type": "number"
+                        }, 
+                        "return_on_assets": {
+                            "type": "number"
+                        }
                     }
                 }
             }

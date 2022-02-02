@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Forms</title>
+    <link rel="stylesheet" href='http://www.jsdelivr.com/projects/brutusin.json-forms/dist/css/brutusin-json-forms.min.css'>
+</head>
+<body>
+    <div id="form-container"></div>
+    
+    <script src="https://cdn.jsdelivr.net/gh/brutusin/json-forms@1.6.3/src/js/brutusin-json-forms.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/brutusin/json-forms@1.6.3/src/js/brutusin-json-forms-bootstrap.min.js"></script>
+
+    <script>
+        async function generateForm(name){
+            let reqSchema = await fetch(`http://api.investincgroup.com/schemas/${name}.schema.json`);
+            let schema = await reqSchema.json();
+
+            var BrutusinForms = brutusin["json-forms"];
+            var bf = BrutusinForms.create(schema);
+            bf.render(document.querySelector('div'), {});
+
+            console.log(bf)
+        }
+    </script>
+</body>
+</html>
