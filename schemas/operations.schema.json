@@ -58,8 +58,20 @@
                         "type": "string"
                     }
                 }
-            }
+            }, 
+            "required": [
+                "supplier_relationship", 
+                "product_replacement", 
+                "market_penetration", 
+                "competition", 
+                "industry_agresiveness", 
+                "operational_requirements", 
+                "operational_level", 
+                "operating_issues"
+            ], 
+            "additionalProperties": false
         }
     }, 
-    "required": ["meta", "data"]
+    "required": ["meta", "data"], 
+    "additionalProperties": false
 }

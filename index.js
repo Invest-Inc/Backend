@@ -39,6 +39,7 @@ app.use('/api/2/currency', require('./routes/currency'));
 app.use('/api/2/startup', require('./routes/startup'));
 app.use('/api/2/user', require('./routes/user'));
 app.use('/api/2/me', require('./routes/me'));
+app.use('/api/2/updates', require('./routes/updates'));
 
 app.listen(PORT, ()=>{
     console.log(`App listening at port ${PORT}`)

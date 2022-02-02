@@ -63,10 +63,17 @@ model Startup_Update {
   type              String?   @db.VarChar
   date              DateTime? @default(now()) @db.Timestamp(6)
   resource_url      String?   @db.VarChar
-  data              String?   @db.Xml
+  data              Json?     @db.Json
   Startup           Startup?  @relation(fields: [startup_id], references: [startup_id], onDelete: Cascade)
 
   @@index([startup_id], map: "Startup_Update_startup")
+}
+
+model Update_Data_Balance_Sheet {
+  startup_update_id Int     @id
+  someCol           String? @db.VarChar
+  someOtherCol      String? @db.VarChar
+  Startup           Startup @relation(fields: [startup_update_id], references: [startup_id], onDelete: Cascade)
 }
 
 model User {
@@ -137,13 +144,6 @@ model User_User_Followings {
   User_UserToUser_User_Followings_user_id           User? @relation("UserToUser_User_Followings_user_id", fields: [user_id], references: [user_id], onDelete: Cascade)
 
   @@unique([user_id, following_user_id])
-}
-
-model Update_Data_Balance_Sheet {
-  startup_update_id Int     @id
-  someCol           String? @db.VarChar
-  someOtherCol      String? @db.VarChar
-  Startup           Startup @relation(fields: [startup_update_id], references: [startup_id], onDelete: Cascade)
 }
 
 enum inv_businessadmin_permission {

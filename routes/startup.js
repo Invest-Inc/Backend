@@ -251,8 +251,13 @@ router.post('/:startup_id/updates',
         try{
             let {title, description, type, date, resource_url, data} = req.body;
             date = new Date(date);
+            data = JSON.parse(data);
+            // Validate types
             if(["news", "balancesheet", "cashflow", "operations"].findIndex(e => e == type) == -1)    
                 return res.json({error: "Enter a valid update type"});
+            // Validate data
+            if(!StartupUpdateService.validateDataField({type, data}))
+                return res.json({error: "Invalid data"});
             await StartupUpdateService.create({
                 data: {
                     startup_id: parseInt(req.params.startup_id), 
@@ -277,6 +282,8 @@ router.put('/:startup_id/updates/:startup_update_id',
     AuthenticationService.authenticate(true), 
     StartupService.permissionsMiddleware("admin", "editor"), 
     async (req, res) => {
+        if(req.body?.data && !StartupUpdateService.validateDataField({type: req.body?.type, data: req.body?.data}))
+            return res.json({error: "Invalid data"})
         // Delete fields from body
         delete req.body?.date;
         delete req.body?.type;

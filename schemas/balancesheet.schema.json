@@ -26,18 +26,10 @@
                     "type": "object",
                     "description": "An asset is something which a person or firm owns that is of value. It is split into fixed and current",
                     "properties": {
-                        "total": {
-                            "description": "Sum of current assets + long term assets + other assets",
-                            "type": "number"
-                        },
                         "current_assets": {
                             "type": "object",
                             "description": "Short-term assets that can be converted to cash within a year",
                             "properties": {
-                                "total": {
-                                    "description": "Sum of all current assets",
-                                    "type": "number"
-                                },
                                 "cash": {
                                     "description": "Cash and cash equivalents",
                                     "type": "number"
@@ -57,6 +49,14 @@
                                 "expense_advances": {
                                     "description": "Expense advances",
                                     "type": "number"
+                                }, 
+                                "others": {
+                                    "description": "Others (not included in options above)", 
+                                    "type": "number"
+                                }, 
+                                "total": {
+                                    "description": "Sum of all current assets",
+                                    "type": "number"
                                 }
                             },
                             "required": [
@@ -65,16 +65,13 @@
                                 "short_term_investments",
                                 "current_accounts_receivables",
                                 "expense_advances"
-                            ]
+                            ], 
+                            "additionalProperties": false
                         },
                         "long_term_assets": {
                             "type": "object",
                             "description": "Assets that have a lifespan greater than a year",
                             "properties": {
-                                "total": {
-                                    "description": "Sum of all long term assets",
-                                    "type": "number"
-                                },
                                 "property_plant_and_equipment": {
                                     "description": "Property, Plant and Equipment (PP&E)",
                                     "type": "number"
@@ -90,6 +87,14 @@
                                 "biological": {
                                     "description": "Biological (Animal and vegetable)",
                                     "type": "number"
+                                }, 
+                                "others": {
+                                    "description": "Others (not included in options above)", 
+                                    "type": "number"
+                                },
+                                "total": {
+                                    "description": "Sum of all long term assets",
+                                    "type": "number"
                                 }
                             },
                             "required": [
@@ -98,16 +103,13 @@
                                 "lendable_property",
                                 "intangibles",
                                 "biological"
-                            ]
+                            ], 
+                            "additionalProperties": false
                         },
                         "other_assets": {
                             "type": "object",
                             "description": "Others...",
                             "properties": {
-                                "total": {
-                                    "description": "Sum of all other assets",
-                                    "type": "number"
-                                },
                                 "investment_in_companies": {
                                     "description": "Investments in companies",
                                     "type": "number"
@@ -123,6 +125,14 @@
                                 "long_term_investment": {
                                     "description": "Long term investment",
                                     "type": "number"
+                                }, 
+                                "others": {
+                                    "description": "Others (not included in options above)", 
+                                    "type": "number"
+                                }, 
+                                "total": {
+                                    "description": "Sum of all other assets",
+                                    "type": "number"
                                 }
                             },
                             "required": [
@@ -130,7 +140,12 @@
                                 "investment_in_companies",
                                 "long_term_accounts_receivables",
                                 "long_term_investment"
-                            ]
+                            ], 
+                            "additionalProperties": false
+                        }, 
+                        "total": {
+                            "description": "Sum of current assets + long term assets + other assets",
+                            "type": "number"
                         }
                     },
                     "required": [
@@ -144,18 +159,10 @@
                     "type": "object",
                     "description": "A liability is something which is potentially owed to someone. They may be either current or long term",
                     "properties": {
-                        "total": {
-                            "description": "Sum of current liabilities + long term liabilities",
-                            "type": "number"
-                        },
                         "current_liabilities": {
                             "type": "object",
                             "description": "Short-term debts that must be repaid within a year",
                             "properties": {
-                                "total": {
-                                    "description": "Sum of all current liabilities",
-                                    "type": "number"
-                                },
                                 "current_notes_and_loans_payables": {
                                     "description": "Current notes and loans payables",
                                     "type": "number"
@@ -183,6 +190,14 @@
                                 "accrued_liabilities": {
                                     "description": "Accrued liabilities",
                                     "type": "number"
+                                }, 
+                                "others": {
+                                    "description": "Others (not included in options above)", 
+                                    "type": "number"
+                                }, 
+                                "total": {
+                                    "description": "Sum of all current liabilities",
+                                    "type": "number"
                                 }
                             },
                             "required": [
@@ -192,16 +207,13 @@
                                 "current_account_payables",
                                 "income_tax_payable",
                                 "labor_liabilities"
-                            ]
+                            ], 
+                            "additionalProperties": false
                         },
                         "long_term_liabilities": {
                             "type": "object",
                             "description": "Items owed that are due for repayment in more than a year",
                             "properties": {
-                                "total": {
-                                    "description": "Sum of all long term liabilities",
-                                    "type": "number"
-                                },
                                 "long_term_notes_and_loans_payables": {
                                     "description": "Long term notes and loans payables",
                                     "type": "number"
@@ -209,29 +221,39 @@
                                 "long_term_accounts_payables": {
                                     "description": "Long term accounts payables",
                                     "type": "number"
+                                }, 
+                                "others": {
+                                    "description": "Others (not included in options above)", 
+                                    "type": "number"
+                                }, 
+                                "total": {
+                                    "description": "Sum of all long term liabilities",
+                                    "type": "number"
                                 }
                             },
                             "required": [
                                 "total",
                                 "long_term_notes_and_loans_payables",
                                 "long_term_accounts_payables"
-                            ]
+                            ], 
+                            "additionalProperties": false
+                        }, 
+                        "total": {
+                            "description": "Sum of current liabilities + long term liabilities",
+                            "type": "number"
                         }
                     },
                     "required": [
                         "total",
                         "current_liabilities",
                         "long_term_liabilities"
-                    ]
+                    ], 
+                    "additionalProperties": false
                 },
                 "equity": {
                     "type": "object",
                     "description": "Equity",
                     "properties": {
-                        "total": {
-                            "description": "Sum of all equity values",
-                            "type": "number"
-                        },
                         "share_capital": {
                             "description": "Share capital",
                             "type": "number"
@@ -255,6 +277,14 @@
                         "yearly_earning": {
                             "description": "Yearly earning",
                             "type": "number"
+                        }, 
+                        "others": {
+                            "description": "Others (not included in options above)", 
+                            "type": "number"
+                        }, 
+                        "total": {
+                            "description": "Sum of all equity values",
+                            "type": "number"
                         }
                     },
                     "required": [
@@ -265,7 +295,8 @@
                         "other_integral_earnings",
                         "retained_earnings",
                         "yearly_earning"
-                    ]
+                    ], 
+                    "additionalProperties": false
                 }
             },
             "required": [
@@ -291,7 +322,8 @@
                         "net_working_capital": {
                             "type": "number"
                         }
-                    }
+                    }, 
+                    "additionalProperties": false
                 },
                 "leverage": {
                     "type": "object",
@@ -303,7 +335,8 @@
                         "debt_ratio": {
                             "type": "number"
                         }
-                    }
+                    }, 
+                    "additionalProperties": false
                 },
                 "profitability": {
                     "type": "object",
@@ -315,7 +348,8 @@
                         "return_on_assets": {
                             "type": "number"
                         }
-                    }
+                    },
+                    "additionalProperties": false
                 }
             }
         }
@@ -323,5 +357,6 @@
     "required": [
         "meta",
         "data"
-    ]
+    ], 
+    "additionalProperties": false
 }

@@ -109,7 +109,8 @@
                 "profit_before_tax", 
                 "tax", 
                 "net_profit"
-            ]
+            ], 
+            "additionalProperties": false
         }, 
         "additional_data": {
             "type": "object", 
@@ -133,7 +134,8 @@
                     "maximum": 1, 
                     "minimum": 0
                 }
-            }
+            }, 
+            "additionalProperties": false
         }, 
         "financial_ratios": {
             "type": "object",
@@ -163,7 +165,8 @@
                         "NOPLAT": {
                             "type": "number"
                         }
-                    }
+                    }, 
+                    "additionalProperties": false
                 }, 
                 "turnover": {
                     "type": "object", 
@@ -180,10 +183,12 @@
                         "net_working_capital_ratio": {
                             "type": "number"
                         }
-                    }
+                    }, 
+                    "additionalProperties": false
                 }
             }
         }
     }, 
-    "required": ["meta", "data", "additional_data", "financial_ratios"]
+    "required": ["meta", "data", "additional_data", "financial_ratios"], 
+    "additionalProperties": false
 }
