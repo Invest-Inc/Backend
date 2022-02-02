@@ -5,17 +5,42 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Forms</title>
-    <link rel="stylesheet" href='http://www.jsdelivr.com/projects/brutusin.json-forms/dist/css/brutusin-json-forms.min.css'>
+    <link rel="stylesheet" href='https://cdn.jsdelivr.net/gh/brutusin/json-forms@1.6.3/dist/css/brutusin-json-forms.min.css'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+    <style>
+        body{
+            background: whitesmoke;
+            padding: 24px;
+        }
+        #form-container{
+            background: white;
+        }
+    </style>
 </head>
 <body>
+    <img src="logo.png" alt="Invest Inc" srcset="" height="60px">
+    <h1>Templates de contenido</h1>
+    <p>
+        Esta página genera un formulario a partir de un schema de json. El propósito es validar los datos y hacer pruebas de usuario. Selecciona un schema aqui: 
+        <select name="schemas" id="schemas">
+            <option value="balancesheet">Balance general (balancesheet)</option>
+        </select>
+    </p>
+    <hr>
+    <h2>BalanceSheet.schema.json</h2>
+
     <div id="form-container"></div>
     
-    <script src="https://cdn.jsdelivr.net/gh/brutusin/json-forms@1.6.3/src/js/brutusin-json-forms.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/brutusin/json-forms@1.6.3/src/js/brutusin-json-forms-bootstrap.min.js"></script>
-
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/gh/brutusin/json-forms@1.6.3/dist/js/brutusin-json-forms.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/brutusin/json-forms@1.6.3/dist/js/brutusin-json-forms-bootstrap.min.js"></script>
+    
     <script>
         async function generateForm(name){
-            let reqSchema = await fetch(`http://api.investincgroup.com/schemas/${name}.schema.json`);
+            let reqSchema = await fetch(`http://localhost:8080/schemas/${name}.schema.json`);
             let schema = await reqSchema.json();
 
             var BrutusinForms = brutusin["json-forms"];
@@ -24,6 +49,7 @@
 
             console.log(bf)
         }
+        generateForm('balancesheet')
     </script>
 </body>
 </html>
