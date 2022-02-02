@@ -40,7 +40,7 @@
     
     <script>
         async function generateForm(name){
-            let reqSchema = await fetch(`http://localhost:8080/schemas/${name}.schema.json`);
+            let reqSchema = await fetch(`/schemas/${name}.schema.json`);
             let schema = await reqSchema.json();
 
             var BrutusinForms = brutusin["json-forms"];
