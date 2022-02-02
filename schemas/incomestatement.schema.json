@@ -3,15 +3,187 @@
     "$id": "http://api.investincgroup.com/schemas/incomestatement.schema.json", 
     "title": "Income Statement Schema", 
     "description": "Schema for stroring general purpose income statements in a structured way", 
+    "type": "object",
     "properties": {
         "meta": {
+            "type": "object",
             "description": "Additional metadata about this income statement", 
             "properties": {
                 "currency": {
                     "description": "Currency (in ISO 4217 format) which numbers are expressed",
                     "type": "string"
+                }, 
+                "type": {
+                    "description": "Income statements may vary depending on the business activity (manufacturing and production or services)", 
+                    "enum": ["manufacturing_and_production", "services"],
+                    "type": "string"
+                }
+            }, 
+            "required": ["currency"]
+        }, 
+        "data": {
+            "type": "object", 
+            "properties": {
+                "sales_revenue": {
+                    "description": "Income for selling goods or services over a period of time", 
+                    "type": "number"
+                }, 
+                "cost_of_goods_sold": {
+                    "description": "Direct cost of producing or purchasing goods sold", 
+                    "type": "number"
+                }, 
+                "gross_profit": {
+                    "description": "Diference between the sales revenue and the cost to the business of such sales", 
+                    "type": "number"
+                }, 
+                "expenses": {
+                    "type": "object", 
+                    "properties": {
+                        "selling_expenses": {
+                            "type": "number"
+                        }, 
+                        "administrative_expenses": {
+                            "type": "number"
+                        }, 
+                        "total": {
+                            "type": "number"
+                        }
+                    }, 
+                    "required": ["total"]
+                }, 
+                "operating_income": {
+                    "description": "Profit obtained through operations", 
+                    "type": "number"
+                }, 
+                "non_operating_income": {
+                    "type": "object", 
+                    "description": "Income obtained through other mediums other than sales revenue",
+                    "properties": {
+                        "interest_and_dividend_revenue": {
+                            "type": "number", 
+                            "description": "Revenue from interest and dividends"
+                        }, 
+                        "total": {
+                            "type": "number"
+                        }
+                    },
+                    "required": ["total"]
+                }, 
+                "non_operating_expenses": {
+                    "type": "object", 
+                    "description": "Expenses that do not originate from operations", 
+                    "properties": {
+                        "non_disbursable_expenses": {
+                            "type": "number"
+                        }, 
+                        "interest_on_loans": {
+                            "type": "number"
+                        }, 
+                        "total": {
+                            "type": "number"
+                        }
+                    }, 
+                    "required": ["total"]
+                }, 
+                "profit_before_tax": {
+                    "description": "Profit after paying all debts, and considering non operating incomes", 
+                    "type": "number"
+                }, 
+                "tax": {
+                    "description": "Amount to be payed in taxes", 
+                    "type": "number"
+                }, 
+                "net_profit": {
+                    "description": "Net profit after paying interest and taxes", 
+                    "type": "number"
+                }
+            }, 
+            "required": [
+                "sales_revenue",
+                "cost_of_goods_sold", 
+                "gross_profit", 
+                "expenses", 
+                "operating_income", 
+                "non_operating_income", 
+                "non_operating_expenses", 
+                "profit_before_tax", 
+                "tax", 
+                "net_profit"
+            ]
+        }, 
+        "additional_data": {
+            "type": "object", 
+            "description": "Aditional data for context", 
+            "properties": {
+                "total_assets": {
+                    "type": "number"
+                }, 
+                "accounts_receivable": {
+                    "type": "number"
+                }, 
+                "accounts_payable": {
+                    "type": "number"
+                }, 
+                "inventory": {
+                    "type": "number"
+                }, 
+                "tax_rate": {
+                    "type": "number", 
+                    "description": "%", 
+                    "maximum": 1, 
+                    "minimum": 0
+                }
+            }
+        }, 
+        "financial_ratios": {
+            "type": "object",
+            "description": "Ratios calculated from data in income statement", 
+            "properties": {
+                "profitability": {
+                    "type": "object", 
+                    "properties": {
+                        "operating_profit_margin": {
+                            "type": "number", 
+                            "description": "sales revenue / profit before tax"
+                        }, 
+                        "gross_profit_margin": {
+                            "type": "number", 
+                            "description": "sales revenue / gross profit"
+                        }, 
+                        "net_profit_margin": {
+                            "type": "number", 
+                            "description": "sales revenue / net profit"
+                        }, 
+                        "EBITDA": {
+                            "type": "number"
+                        }, 
+                        "EBIT": {
+                            "type": "number"
+                        }, 
+                        "NOPLAT": {
+                            "type": "number"
+                        }
+                    }
+                }, 
+                "turnover": {
+                    "type": "object", 
+                    "properties": {
+                        "receivable_turnover_ratio": {
+                            "type": "number"
+                        }, 
+                        "inventory_turnover_ratio": {
+                            "type": "number"
+                        }, 
+                        "payable_turnover_ratio": {
+                            "type": "number"
+                        }, 
+                        "net_working_capital_ratio": {
+                            "type": "number"
+                        }
+                    }
                 }
             }
         }
-    }
+    }, 
+    "required": ["meta", "data", "additional_data", "financial_ratios"]
 }

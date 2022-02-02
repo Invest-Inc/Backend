@@ -23,10 +23,12 @@
     <h1>Templates de contenido</h1>
     <p>
         Esta página genera un formulario a partir de un schema de json. El propósito es validar los datos y hacer pruebas de usuario. Selecciona un schema aqui: 
-        <select name="schemas" id="schemas">
-            <option value="balancesheet">Balance general (balancesheet)</option>
-        </select>
     </p>
+    <select name="schemas" id="schemas" style="font-size: 2em;">
+        <option value="balancesheet">Balance general (balancesheet)</option>
+        <option value="incomestatement">Estado de resultados (incomestatement)</option>
+        <option value="operations">Análisis de operaciones</option>
+    </select>
     <hr>
     <h2>BalanceSheet.schema.json</h2>
 
@@ -39,17 +41,23 @@
     <script src="https://cdn.jsdelivr.net/gh/brutusin/json-forms@1.6.3/dist/js/brutusin-json-forms-bootstrap.min.js"></script>
     
     <script>
+        let BrutusinForms = brutusin["json-forms"];
+
         async function generateForm(name){
+            document.querySelector('div').innerHTML = "";
             let reqSchema = await fetch(`/schemas/${name}.schema.json`);
             let schema = await reqSchema.json();
 
-            var BrutusinForms = brutusin["json-forms"];
-            var bf = BrutusinForms.create(schema);
+            let bf = BrutusinForms.create(schema);
             bf.render(document.querySelector('div'), {});
-
-            console.log(bf)
         }
         generateForm('balancesheet')
+
+        document.querySelector('select').addEventListener('change', e=>{
+            generateForm(e.target.value)
+            document.querySelector('h2').innerHTML = `${e.target.value}.schema.json`
+        })
+
     </script>
 </body>
 </html>

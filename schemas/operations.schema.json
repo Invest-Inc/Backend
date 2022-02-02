@@ -1,0 +1,65 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "$id": "http://api.investincgroup.com/schemas/operations.schema.json",
+    "title": "Operations analysis schema", 
+    "description": "Schema for storing operations performance scores", 
+    "type": "object", 
+    "properties": {
+        "meta": {
+            "type": "object"
+        }, 
+        "data": {
+            "type": "object",
+            "properties": {
+                "supplier_relationship": {
+                    "type": "number", 
+                    "minimum": 1, 
+                    "maximum": 5, 
+                    "description": "Falta revisar la escala!!"
+                }, 
+                "product_replacement": {
+                    "type": "number", 
+                    "minimum": 1, 
+                    "maximum": 5, 
+                    "description": "Falta revisar la escala!!"
+                }, 
+                "market_penetration": {
+                    "type": "number",
+                    "minimum": 1, 
+                    "maximum": 5, 
+                    "description": "Falta revisar la escala!!"
+                },
+                "competition": {
+                    "type": "number", 
+                    "minimum": 1, 
+                    "maximum": 5, 
+                    "description": "Falta revisar la escala!!"
+                }, 
+                "industry_agresiveness": {
+                    "type": "number", 
+                    "minimum": 1, 
+                    "maximum": 5, 
+                    "description": "Falta revisar la escala!!"
+                }, 
+                "operational_requirements": {
+                    "type": "array", 
+                    "items": {
+                        "type": "string"
+                    }
+                }, 
+                "operational_level": {
+                    "type": "number", 
+                    "minimum": 0, 
+                    "maximum": 1
+                }, 
+                "operating_issues": {
+                    "type": "array", 
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }, 
+    "required": ["meta", "data"]
+}

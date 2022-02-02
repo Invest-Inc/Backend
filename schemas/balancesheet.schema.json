@@ -7,272 +7,287 @@
     "properties": {
         "meta": {
             "type": "object",
-            "description": "Aditional metadata about this balance sheet", 
+            "description": "Aditional metadata about this balance sheet",
             "properties": {
                 "currency": {
                     "description": "Currency (in ISO 4217 format) which numbers are expressed",
-                    "type": "string"
-                }
-            }
-        },
-        "assets": {
-            "type": "object",
-            "description": "An asset is something which a person or firm owns that is of value. It is split into fixed and current",
-            "properties": {
-                "total": {
-                    "description": "Sum of current assets + long term assets + other assets",
-                    "type": "number"
-                },
-                "current_assets": {
-                    "type": "object",
-                    "description": "Short-term assets that can be converted to cash within a year",
-                    "properties": {
-                        "total": {
-                            "description": "Sum of all current assets",
-                            "type": "number"
-                        },
-                        "cash": {
-                            "description": "Cash and cash equivalents",
-                            "type": "number"
-                        },
-                        "short_term_investments": {
-                            "description": "Short term investments",
-                            "type": "number"
-                        },
-                        "current_accounts_receivables": {
-                            "description": "Current account receivables",
-                            "type": "number"
-                        },
-                        "inventory": {
-                            "description": "Optional",
-                            "type": "number"
-                        },
-                        "expense_advances": {
-                            "description": "Expense advances",
-                            "type": "number"
-                        }
-                    },
-                    "required": [
-                        "total",
-                        "cash",
-                        "short_term_investments",
-                        "current_accounts_receivables"
-                    ]
-                },
-                "long_term_assets": {
-                    "type": "object",
-                    "description": "Assets that have a lifespan greater than a year",
-                    "properties": {
-                        "total": {
-                            "description": "Sum of all long term assets",
-                            "type": "number"
-                        },
-                        "property_plant_and_equipment": {
-                            "description": "Property, Plant and Equipment (PP&E)",
-                            "type": "number"
-                        },
-                        "lendable_property": {
-                            "description": "Lendable property",
-                            "type": "number"
-                        },
-                        "intangibles": {
-                            "description": "Intangibles",
-                            "type": "number"
-                        },
-                        "biological": {
-                            "description": "Biological (Animal and vegetable)",
-                            "type": "number"
-                        }
-                    },
-                    "required": [
-                        "total",
-                        "property_plant_and_equipment",
-                        "lendable_property",
-                        "intangibles",
-                        "biological"
-                    ]
-                },
-                "other_assets": {
-                    "type": "object",
-                    "description": "Others...",
-                    "properties": {
-                        "total": {
-                            "description": "Sum of all other assets",
-                            "type": "number"
-                        },
-                        "investment_in_companies": {
-                            "description": "Investments in companies",
-                            "type": "number"
-                        },
-                        "investment_property": {
-                            "description": "Investment property",
-                            "type": "number"
-                        },
-                        "long_term_accounts_receivables": {
-                            "description": "Long term accounts receivables",
-                            "type": "number"
-                        },
-                        "long_term_investment": {
-                            "description": "Long term investment",
-                            "type": "number"
-                        }
-                    },
-                    "required": [
-                        "total",
-                        "investment_in_companies",
-                        "long_term_accounts_receivables",
-                        "long_term_investment"
-                    ]
+                    "type": "string",
+                    "default": "USD"
                 }
             },
             "required": [
-                "total",
-                "current_assets",
-                "long_term_assets",
-                "other_assets"
+                "currency"
             ]
         },
-        "liabilities": {
+        "data": {
             "type": "object",
-            "description": "A liability is something which is potentially owed to someone. They may be either current or long term",
             "properties": {
-                "total": {
-                    "description": "Sum of current liabilities + long term liabilities",
-                    "type": "number"
-                },
-                "current_liabilities": {
+                "assets": {
                     "type": "object",
-                    "description": "Short-term debts that must be repaid within a year",
+                    "description": "An asset is something which a person or firm owns that is of value. It is split into fixed and current",
                     "properties": {
                         "total": {
-                            "description": "Sum of all current liabilities",
+                            "description": "Sum of current assets + long term assets + other assets",
                             "type": "number"
                         },
-                        "current_notes_and_loans_payables": {
-                            "description": "Current notes and loans payables",
+                        "current_assets": {
+                            "type": "object",
+                            "description": "Short-term assets that can be converted to cash within a year",
+                            "properties": {
+                                "total": {
+                                    "description": "Sum of all current assets",
+                                    "type": "number"
+                                },
+                                "cash": {
+                                    "description": "Cash and cash equivalents",
+                                    "type": "number"
+                                },
+                                "short_term_investments": {
+                                    "description": "Short term investments",
+                                    "type": "number"
+                                },
+                                "current_accounts_receivables": {
+                                    "description": "Current account receivables",
+                                    "type": "number"
+                                },
+                                "inventory": {
+                                    "description": "Optional",
+                                    "type": "number"
+                                },
+                                "expense_advances": {
+                                    "description": "Expense advances",
+                                    "type": "number"
+                                }
+                            },
+                            "required": [
+                                "total",
+                                "cash",
+                                "short_term_investments",
+                                "current_accounts_receivables",
+                                "expense_advances"
+                            ]
+                        },
+                        "long_term_assets": {
+                            "type": "object",
+                            "description": "Assets that have a lifespan greater than a year",
+                            "properties": {
+                                "total": {
+                                    "description": "Sum of all long term assets",
+                                    "type": "number"
+                                },
+                                "property_plant_and_equipment": {
+                                    "description": "Property, Plant and Equipment (PP&E)",
+                                    "type": "number"
+                                },
+                                "lendable_property": {
+                                    "description": "Lendable property",
+                                    "type": "number"
+                                },
+                                "intangibles": {
+                                    "description": "Intangibles",
+                                    "type": "number"
+                                },
+                                "biological": {
+                                    "description": "Biological (Animal and vegetable)",
+                                    "type": "number"
+                                }
+                            },
+                            "required": [
+                                "total",
+                                "property_plant_and_equipment",
+                                "lendable_property",
+                                "intangibles",
+                                "biological"
+                            ]
+                        },
+                        "other_assets": {
+                            "type": "object",
+                            "description": "Others...",
+                            "properties": {
+                                "total": {
+                                    "description": "Sum of all other assets",
+                                    "type": "number"
+                                },
+                                "investment_in_companies": {
+                                    "description": "Investments in companies",
+                                    "type": "number"
+                                },
+                                "investment_property": {
+                                    "description": "Investment property",
+                                    "type": "number"
+                                },
+                                "long_term_accounts_receivables": {
+                                    "description": "Long term accounts receivables",
+                                    "type": "number"
+                                },
+                                "long_term_investment": {
+                                    "description": "Long term investment",
+                                    "type": "number"
+                                }
+                            },
+                            "required": [
+                                "total",
+                                "investment_in_companies",
+                                "long_term_accounts_receivables",
+                                "long_term_investment"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "total",
+                        "current_assets",
+                        "long_term_assets",
+                        "other_assets"
+                    ]
+                },
+                "liabilities": {
+                    "type": "object",
+                    "description": "A liability is something which is potentially owed to someone. They may be either current or long term",
+                    "properties": {
+                        "total": {
+                            "description": "Sum of current liabilities + long term liabilities",
                             "type": "number"
                         },
-                        "supplier_liabilities": {
-                            "description": "Supplier liabilities",
+                        "current_liabilities": {
+                            "type": "object",
+                            "description": "Short-term debts that must be repaid within a year",
+                            "properties": {
+                                "total": {
+                                    "description": "Sum of all current liabilities",
+                                    "type": "number"
+                                },
+                                "current_notes_and_loans_payables": {
+                                    "description": "Current notes and loans payables",
+                                    "type": "number"
+                                },
+                                "supplier_liabilities": {
+                                    "description": "Supplier liabilities",
+                                    "type": "number"
+                                },
+                                "current_account_payables": {
+                                    "description": "Current account payables",
+                                    "type": "number"
+                                },
+                                "income_tax_payable": {
+                                    "description": "Income tax payable",
+                                    "type": "number"
+                                },
+                                "labor_liabilities": {
+                                    "description": "Labor liabilities",
+                                    "type": "number"
+                                },
+                                "provision_and_contingent": {
+                                    "description": "Provision and contingent",
+                                    "type": "number"
+                                },
+                                "accrued_liabilities": {
+                                    "description": "Accrued liabilities",
+                                    "type": "number"
+                                }
+                            },
+                            "required": [
+                                "total",
+                                "current_notes_and_loans_payables",
+                                "supplier_liabilities",
+                                "current_account_payables",
+                                "income_tax_payable",
+                                "labor_liabilities"
+                            ]
+                        },
+                        "long_term_liabilities": {
+                            "type": "object",
+                            "description": "Items owed that are due for repayment in more than a year",
+                            "properties": {
+                                "total": {
+                                    "description": "Sum of all long term liabilities",
+                                    "type": "number"
+                                },
+                                "long_term_notes_and_loans_payables": {
+                                    "description": "Long term notes and loans payables",
+                                    "type": "number"
+                                },
+                                "long_term_accounts_payables": {
+                                    "description": "Long term accounts payables",
+                                    "type": "number"
+                                }
+                            },
+                            "required": [
+                                "total",
+                                "long_term_notes_and_loans_payables",
+                                "long_term_accounts_payables"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "total",
+                        "current_liabilities",
+                        "long_term_liabilities"
+                    ]
+                },
+                "equity": {
+                    "type": "object",
+                    "description": "Equity",
+                    "properties": {
+                        "total": {
+                            "description": "Sum of all equity values",
                             "type": "number"
                         },
-                        "current_account_payables": {
-                            "description": "Current account payables",
+                        "share_capital": {
+                            "description": "Share capital",
                             "type": "number"
                         },
-                        "income_tax_payable": {
-                            "description": "Income tax payable",
+                        "capital_surplus": {
+                            "description": "Capital surplus",
                             "type": "number"
                         },
-                        "labor_liabilities": {
-                            "description": "Labor liabilities",
+                        "reserves": {
+                            "description": "Reserves",
                             "type": "number"
                         },
-                        "provision_and_contingent": {
-                            "description": "Provision and contingent",
+                        "other_integral_earnings": {
+                            "description": "Other integral earnings",
                             "type": "number"
                         },
-                        "accrued_liabilities": {
-                            "description": "Accrued liabilities",
+                        "retained_earnings": {
+                            "description": "Retained earnings",
+                            "type": "number"
+                        },
+                        "yearly_earning": {
+                            "description": "Yearly earning",
                             "type": "number"
                         }
                     },
                     "required": [
                         "total",
-                        "current_notes_and_loans_payables",
-                        "supplier_liabilities",
-                        "current_account_payables",
-                        "income_tax_payable",
-                        "labor_liabilities"
-                    ]
-                },
-                "long_term_liabilities": {
-                    "type": "object",
-                    "description": "Items owed that are due for repayment in more than a year",
-                    "properties": {
-                        "total": {
-                            "description": "Sum of all long term liabilities",
-                            "type": "number"
-                        },
-                        "long_term_notes_and_loans_payables": {
-                            "description": "Long term notes and loans payables",
-                            "type": "number"
-                        },
-                        "long_term_accounts_payables": {
-                            "description": "Long term accounts payables",
-                            "type": "number"
-                        }
-                    },
-                    "required": [
-                        "total",
-                        "long_term_notes_and_loans_payables",
-                        "long_term_accounts_payables"
+                        "share_capital",
+                        "capital_surplus",
+                        "reserves",
+                        "other_integral_earnings",
+                        "retained_earnings",
+                        "yearly_earning"
                     ]
                 }
             },
             "required": [
-                "total",
-                "current_liabilities",
-                "long_term_liabilities"
-            ]
-        },
-        "equity": {
-            "type": "object",
-            "description": "Equity",
-            "properties": {
-                "total": {
-                    "description": "Sum of all equity values",
-                    "type": "number"
-                },
-                "share_capital": {
-                    "description": "Share capital",
-                    "type": "number"
-                },
-                "capital_surplus": {
-                    "description": "Capital surplus",
-                    "type": "number"
-                },
-                "reserves": {
-                    "description": "Reserves",
-                    "type": "number"
-                },
-                "other_integral_earnings": {
-                    "description": "Other integral earnings",
-                    "type": "number"
-                },
-                "retained_earnings": {
-                    "description": "Retained earnings",
-                    "type": "number"
-                },
-                "yearly_earning": {
-                    "description": "Yearly earning",
-                    "type": "number"
-                }
-            },
-            "required": [
-                "total",
-                "share_capital",
-                "capital_surplus",
-                "reserves",
-                "other_integral_earnings",
-                "retained_earnings",
-                "yearly_earning"
+                "assets",
+                "liabilities",
+                "equity"
             ]
         },
         "financial_ratios": {
             "type": "object",
-            "description": "Ratios calculated from data in balance sheet", 
+            "description": "Ratios calculated from data in balance sheet",
             "properties": {
                 "liquidity": {
                     "type": "object",
-                    "description": "", 
+                    "description": "",
                     "properties": {
                         "current_ratio": {
                             "type": "number"
-                        }, 
+                        },
                         "acid_test": {
                             "type": "number"
-                        }, 
+                        },
                         "net_working_capital": {
                             "type": "number"
                         }
@@ -280,23 +295,23 @@
                 },
                 "leverage": {
                     "type": "object",
-                    "description": "", 
+                    "description": "",
                     "properties": {
                         "debt_to_worth": {
                             "type": "number"
-                        }, 
+                        },
                         "debt_ratio": {
                             "type": "number"
                         }
                     }
-                }, 
+                },
                 "profitability": {
                     "type": "object",
-                    "description": "", 
+                    "description": "",
                     "properties": {
                         "return_on_equity": {
                             "type": "number"
-                        }, 
+                        },
                         "return_on_assets": {
                             "type": "number"
                         }
@@ -304,6 +319,9 @@
                 }
             }
         }
-    }, 
-    "required": ["meta", "assets", "liabilities", "equity"]
+    },
+    "required": [
+        "meta",
+        "data"
+    ]
 }
