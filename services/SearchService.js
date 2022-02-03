@@ -11,7 +11,7 @@ const searchUsersByProfile = async (q) => {
 
 const searchUsersByExperience = async (q) => {
     const results = await Database.$queryRaw`
-        SELECT *, 'user' AS "type" FROM "User_Curricular_Activity"
+        SELECT "User".*, 'user' AS "type" FROM "User_Curricular_Activity"
         JOIN "User" USING ("user_id")
         WHERE to_tsvector("organization" || ' ' || "User_Curricular_Activity"."name" || ' ' || "User_Curricular_Activity"."description")
         @@ to_tsquery(${q})
@@ -29,11 +29,28 @@ const searchStartups = async (q) => {
 }
 
 const searchAll = async (q) => {
-    return [
-        ...(await searchUsersByProfile(q)), 
-        ...(await searchUsersByExperience(q)), 
-        ...(await searchStartups(q))
-    ]
+    const results = [];
+    const startups_ids = new Set();
+    const users_ids = new Set();
+
+    for(let user of await searchUsersByProfile(q)){
+        if(users_ids.has(user.user_id)) continue;
+        users_ids.add(user.user_id);
+        results.push(user);
+    }
+
+    for(let user of await searchUsersByExperience(q)){
+        if(users_ids.has(user.user_id)) continue;
+        users_ids.add(user.user_id);
+        results.push(user);
+    }
+
+    for(let startup of await searchStartups(q)){
+        if(startups_ids.has(startup.startup_id)) continue;
+        startups_ids.add(startup.startup_id);
+        results.push(startup);
+    }
+    return results;
 }
 
 /* searchAll('nasa').then(results=>{
