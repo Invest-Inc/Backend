@@ -17,9 +17,22 @@
                     "description": "Income statements may vary depending on the business activity (manufacturing and production or services)", 
                     "enum": ["manufacturing_and_production", "services"],
                     "type": "string"
+                }, 
+                "year": {
+                    "description": "Fiscal year of this income statement", 
+                    "type": "number"
+                }, 
+                "quarter": {
+                    "description": "Fiscal quarter of this income statement (Use QF for a yearly balance sheet)", 
+                    "type": "string", 
+                    "enum": ["Q1", "Q2", "Q3", "Q4", "QF"]
                 }
             }, 
-            "required": ["currency"]
+            "required": [
+                "currency", 
+                "year", 
+                "quarter"
+            ]
         }, 
         "data": {
             "type": "object", 

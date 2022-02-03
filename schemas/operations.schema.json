@@ -6,7 +6,18 @@
     "type": "object", 
     "properties": {
         "meta": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "year": {
+                    "description": "Fiscal year of this operations report", 
+                    "type": "number"
+                }, 
+                "quarter": {
+                    "description": "Fiscal quarter of this operations report (Use QF for a yearly balance sheet)", 
+                    "type": "string", 
+                    "enum": ["Q1", "Q2", "Q3", "Q4", "QF"]
+                }
+            }
         }, 
         "data": {
             "type": "object",

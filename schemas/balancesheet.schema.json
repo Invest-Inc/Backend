@@ -13,10 +13,21 @@
                     "description": "Currency (in ISO 4217 format) which numbers are expressed",
                     "type": "string",
                     "default": "USD"
+                }, 
+                "year": {
+                    "description": "Fiscal year of this balance sheet", 
+                    "type": "number"
+                }, 
+                "quarter": {
+                    "description": "Fiscal quarter of this balance sheet (Use QF for a yearly balance sheet)", 
+                    "type": "string", 
+                    "enum": ["Q1", "Q2", "Q3", "Q4", "QF"]
                 }
             },
             "required": [
-                "currency"
+                "currency", 
+                "year", 
+                "quarter"
             ]
         },
         "data": {
