@@ -13,7 +13,7 @@ router.post('/login',
     async (req, res, next) => {
         passport.authenticate('local', async (err, user, info) => {
             try{
-                if(err || !user) return next(new Error("An error ocurred"));
+                if(err || !user) throw "An error occured";
                 req.login(user, {session: true}, async (error) => {
                     if (error) return next(error);
                     return res.json(
