@@ -13,6 +13,7 @@ router.get('/',
                     user_id: req.user.user_id
                 }
             });
+            user.is_current_user = true;
             res.json(user);
         } catch(e){
             console.log(e)
