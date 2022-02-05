@@ -5,6 +5,14 @@ const router = express.Router();
 
 // * Get user info
 router.get('/', 
+    (req, res, next) => {
+        if(req.headers.authorization == undefined){
+            const {token} = req.query;
+            req.headers.authorization = token;
+        }
+        console.log(req.headers.authorization);
+        next();
+    }, 
     AuthenticationService.authenticate(true), 
     async (req, res) => {
         try{
