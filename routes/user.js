@@ -8,8 +8,10 @@ router.get('/:username',
     AuthenticationService.authenticate(false), 
     async (req, res) => {
         try{
-            if(req.user.username == req.params.username)
+            if(req.user.username == req.params.username){
+                res.set('Authorization', req.headers.authorization);
                 return res.redirect('/api/2/me');
+            }
             let user = await UserService.findUnique({
                 where: {
                     username: req.params.username
