@@ -77,7 +77,7 @@ router.post('/:username/unfollow',
                 user_id: req.user.user_id, 
                 following_user_id: user.user_id
             });
-            res.json({error: "Success"});
+            res.json({message: "Success"});
         } catch(e){
             res.json(e);
         }
