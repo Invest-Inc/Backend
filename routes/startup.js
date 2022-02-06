@@ -5,6 +5,20 @@ const StartupUpdateService = require("../services/StartupUpdateService");
 const UserService = require("../services/UserService");
 const router = express.Router();
 
+// Get trending startups
+router.get('/trending', 
+    async (req, res) => {
+        try{
+            const data = await StartupService.findMany({
+                take: 10
+            });
+            res.json(data);
+        } catch(e){
+            res.json(e);
+        }
+    }
+);
+
 // * Create a new startup
 router.post('/', 
     AuthenticationService.authenticate(true), 
