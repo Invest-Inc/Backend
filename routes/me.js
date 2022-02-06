@@ -34,6 +34,8 @@ router.get('/',
 router.put('/', 
     AuthenticationService.authenticate(true), 
     async (req, res) => {
+        delete req.body.user_id;
+        delete req.body.is_current_user;
         try {
             await UserService.update({
                 where: {user_id: req.user.user_id}, 
@@ -41,6 +43,7 @@ router.put('/',
             })
             res.json({message: "Success"})
         } catch (e) {
+            console.log(e)
             res.json(e);
         }
     }
