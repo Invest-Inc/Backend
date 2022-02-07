@@ -5,7 +5,7 @@ const StartupUpdateService = require("../services/StartupUpdateService");
 const UserService = require("../services/UserService");
 const router = express.Router();
 
-// Get trending startups
+// * Get trending startups
 router.get('/trending', 
     async (req, res) => {
         try{
@@ -56,6 +56,8 @@ router.put('/:startup_id',
     AuthenticationService.authenticate(true), 
     StartupService.permissionsMiddleware("admin"), 
     async (req, res) => {
+        delete req.body.startup_id;
+        delete req.body.current_user_permissions;
         try{
             await StartupService.update({
                 where: {startup_id: parseInt(req.params.startup_id)}, 
