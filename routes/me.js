@@ -1,5 +1,7 @@
 const express = require("express");
+const { startup_Admin } = require("../database");
 const AuthenticationService = require("../services/AuthenticationService");
+const StartupService = require("../services/StartupService");
 const UserService = require("../services/UserService");
 const router = express.Router();
 
@@ -190,5 +192,25 @@ router.delete('/curriculum/:user_curricular_activity_id',
         }
     }
 );
+
+// Get startups
+router.get('/roles', 
+    AuthenticationService.authenticate(true), 
+    async (req, res) => {
+        try{
+            const results = await startup_Admin.findMany({
+                where: {
+                    user_id: req.user.user_id
+                }, 
+                include: {
+                    Startup: true
+                }
+            });
+            res.json(results);
+        } catch(e){
+            res.json(e);
+        }
+    }
+)
 
 module.exports = router;
