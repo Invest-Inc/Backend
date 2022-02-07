@@ -215,6 +215,26 @@ router.post('/:startup_id/employees',
     }
 )
 
+// * Update employee
+router.put('/:startup_id/employees/:user_id', 
+    AuthenticationService.authenticate(true), 
+    StartupService.permissionsMiddleware("admin", "editor"), 
+    async (req, res) => {
+        const {role, role_description, user_id} = req.body;
+        try{
+            await StartupService.editEmployee({
+                user_id: parseInt(user_id),
+                startup_id: parseInt(req.params.startup_id), 
+                role, 
+                role_description
+            });
+            res.json({message: "Success"});
+        } catch(e){
+            res.json(e);
+        }
+    }
+)
+
 // * Delete employee
 router.delete('/:startup_id/employees/:user_id', 
     AuthenticationService.authenticate(true), 

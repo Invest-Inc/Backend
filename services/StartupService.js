@@ -90,6 +90,20 @@ const removeEmployee = async ({startup_id, user_id}) => {
     });
 }
 
+const editEmployee = async ({startup_id, user_id, role, role_description}) => {
+    const row = await Database.startup_Employee.findFirst({
+        where: {startup_id, user_id},
+        select: {
+            startup_employee_id: true
+        }
+    });
+    if(row == undefined) return;
+    await Database.startup_Employee.update({
+        data: {role, role_description}, 
+        where: {startup_employee_id: row.startup_employee_id}
+    });
+}
+
 const getUserPermissions = async ({user_id, startup_id}) => {
     const row = await Database.startup_Admin.findFirst({
         where: {
@@ -112,6 +126,7 @@ const StartupService = {
     // Employees
     getEmployees, 
     addEmployee, 
+    editEmployee, 
     removeEmployee,
 
 
