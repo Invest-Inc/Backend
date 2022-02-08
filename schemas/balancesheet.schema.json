@@ -10,24 +10,27 @@
             "description": "Aditional metadata about this balance sheet",
             "properties": {
                 "currency": {
-                    "description": "Currency (in ISO 4217 format) which numbers are expressed",
+                    "description": "Currency (in ISO 4217 format)",
                     "type": "string",
                     "default": "USD"
                 }, 
+                "currency_exchange_rate": {
+                    "description": "Value in USD of currency as per the current date", 
+                    "type": "number"
+                },
                 "year": {
-                    "description": "Fiscal year of this balance sheet", 
                     "type": "number"
                 }, 
-                "quarter": {
-                    "description": "Fiscal quarter of this balance sheet (Use QF for a yearly balance sheet)", 
+                "period": {
                     "type": "string", 
-                    "enum": ["Q1", "Q2", "Q3", "Q4", "QF"]
+                    "enum": ["Q1", "Q2", "Q3", "Q4", "FY"]
                 }
             },
             "required": [
                 "currency", 
+                "currency_exchange_rate",
                 "year", 
-                "quarter"
+                "period"
             ]
         },
         "data": {
@@ -79,7 +82,7 @@
                             ], 
                             "additionalProperties": false
                         },
-                        "long_term_assets": {
+                        "non_current_assets": {
                             "type": "object",
                             "description": "Assets that have a lifespan greater than a year",
                             "properties": {
@@ -104,7 +107,7 @@
                                     "type": "number"
                                 },
                                 "total": {
-                                    "description": "Sum of all long term assets",
+                                    "description": "Sum of all non current assets",
                                     "type": "number"
                                 }
                             },

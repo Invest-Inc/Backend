@@ -220,6 +220,7 @@ router.put('/:startup_id/employees/:user_id',
     AuthenticationService.authenticate(true), 
     StartupService.permissionsMiddleware("admin", "editor"), 
     async (req, res) => {
+        console.log("Update")
         const {role, role_description, user_id} = req.body;
         try{
             await StartupService.editEmployee({
@@ -230,6 +231,7 @@ router.put('/:startup_id/employees/:user_id',
             });
             res.json({message: "Success"});
         } catch(e){
+            console.log(e)
             res.json(e);
         }
     }

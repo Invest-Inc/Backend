@@ -10,28 +10,27 @@
             "description": "Additional metadata about this income statement", 
             "properties": {
                 "currency": {
-                    "description": "Currency (in ISO 4217 format) which numbers are expressed",
-                    "type": "string"
+                    "description": "Currency (in ISO 4217 format)",
+                    "type": "string",
+                    "default": "USD"
                 }, 
-                "type": {
-                    "description": "Income statements may vary depending on the business activity (manufacturing and production or services)", 
-                    "enum": ["manufacturing_and_production", "services"],
-                    "type": "string"
-                }, 
+                "currency_exchange_rate": {
+                    "description": "Value in USD of currency as per the current date", 
+                    "type": "number"
+                },
                 "year": {
-                    "description": "Fiscal year of this income statement", 
                     "type": "number"
                 }, 
-                "quarter": {
-                    "description": "Fiscal quarter of this income statement (Use QF for a yearly balance sheet)", 
+                "period": {
                     "type": "string", 
-                    "enum": ["Q1", "Q2", "Q3", "Q4", "QF"]
+                    "enum": ["Q1", "Q2", "Q3", "Q4", "FY"]
                 }
-            }, 
+            },
             "required": [
                 "currency", 
+                "currency_exchange_rate",
                 "year", 
-                "quarter"
+                "period"
             ]
         }, 
         "data": {
