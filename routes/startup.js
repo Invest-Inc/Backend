@@ -290,6 +290,7 @@ router.post('/:startup_id/updates',
             let {title, description, type, date, resource_url, data} = req.body;
             date = new Date(date);
             data = JSON.parse(data);
+            type = type || data.meta.type;
             // Validate types
             if(["news", "balancesheet", "cashflow", "operations"].findIndex(e => e == type) == -1)    
                 return res.json({error: "Enter a valid update type"});
