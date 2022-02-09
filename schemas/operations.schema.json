@@ -14,8 +14,16 @@
                 "period": {
                     "type": "string", 
                     "enum": ["Q1", "Q2", "Q3", "Q4", "FY"]
+                }, 
+                "type": {
+                    "enum": ["operations"]
                 }
-            }
+            }, 
+            "required": [
+                "year", 
+                "period", 
+                "type"
+            ]
         }, 
         "data": {
             "type": "object",

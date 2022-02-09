@@ -17,8 +17,14 @@
                     "items": {
                         "type": "string"
                     }
+                }, 
+                "type": {
+                    "enum": ["news"]
                 }
-            }
+            }, 
+            "required": [
+                "type"
+            ]
         }, 
         "data": {
             "type": "object", 

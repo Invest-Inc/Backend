@@ -23,7 +23,7 @@
         <img src="logo.png" alt="Invest Inc" srcset="" height="60px">
         <span style="font-size: 2em;">
             <button id="verify">Verificar</button>
-            <button id="copy">Copiar</button>
+            <button id="copyText">Copiar</button>
         </span>
     </div>
     <h1>Templates de contenido</h1>
@@ -58,7 +58,8 @@
             bf = BrutusinForms.create(schema);
             bf.render(document.querySelector('#form-container'), {});
         }
-        generateForm('balancesheet')
+        
+        generateForm('balancesheet');
 
         document.querySelector('select').addEventListener('change', e=>{
             generateForm(e.target.value)
@@ -75,7 +76,7 @@
             }
         });
 
-        document.querySelector('#copy').addEventListener('click', ()=>{
+        document.querySelector('#copyText').addEventListener('click', ()=>{
             if(bf == null) return;
             if(!bf.validate() && !confirm("Los datos son incorrectos, ¿desea copiar de todos modos?")) return;
             let data = bf.getData();

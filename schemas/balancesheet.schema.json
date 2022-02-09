@@ -24,13 +24,17 @@
                 "period": {
                     "type": "string", 
                     "enum": ["Q1", "Q2", "Q3", "Q4", "FY"]
+                }, 
+                "type": {
+                    "enum": ["balancesheet"]
                 }
             },
             "required": [
                 "currency", 
                 "currency_exchange_rate",
                 "year", 
-                "period"
+                "period", 
+                "type"
             ]
         },
         "data": {
